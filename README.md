@@ -17,13 +17,13 @@ This course is mostly based on [Maria Montoya-Aguirre's](https://mariamontoyaa.g
 
 ## Lectures:
 You can find the pdf version of the slides in the `slides` folder. 
-1. Data manipulation (Sep 8)
+1. Data manipulation (Sept 16)
     - [📄 Open slides](https://andreapopcatalisan.github.io/2026-intro-to-r-public/slides/01_data-manipulation-noanswers.html#1)
-3. Data visualization (Sep 9)
+3. Data visualization (Sept 20)
     - [📄 Open Slides](https://andreapopcatalisan.github.io/2026-intro-to-r-public/slides/02_data-visualization.html#1)
-4. R Markdown, LaTeX and other tools for reproducible research (Sep 11)
+4. R Markdown, LaTeX and other tools for reproducible research (Sept 30)
     - [📄 Open Slides](https://andreapopcatalisan.github.io/2026-intro-to-r-public/slides/03_reports-Rmd-Latex.html#1)
-6. Econometrics in R (Sep 12)
+6. Econometrics in R (Oct 7)
     - [📄 Open Slides](https://andreapopcatalisan.github.io/2026-intro-to-r-public/slides/04_econometrics.html#1)
 
    
