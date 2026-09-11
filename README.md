@@ -28,7 +28,7 @@ You can find the pdf version of the slides in the `slides` folder.
 
    
 ## 📝 Homework 1: Data Manipulation  
-**Due:** September 9 at 11:15 AM
+**Due:** September 20 at 23:59.
 
 ### ✅ Task 1: Inspect the IMDB dataset
 
@@ -68,7 +68,7 @@ Follow the instructions in [this short tutorial](https://www.youtube.com/watch?v
 
 ---
 ## 📝 Homework 2: Data Visualization
-**Due:** September 11 at 11:15 AM
+**Due:** September 27 at 23:59.
 
 Use the `02_playfair-wages-wheat.sv` dataset and replicate [this graph](slides/playfair-wages-wheat.png) as best as you can using `ggplot()`
 
@@ -107,7 +107,7 @@ Create a new issue and write down your question **publicly**:
     - Copy and paste the exact warning/error messages you get if there are any
       
 - 📬 If you prefer to send me a message **privately**:
-    - Email me at maria.montoya@psemail.eu
+    - Email me at andrea.pop@psemail.eu
     - ⚠️ Don't forget to add `[intro-to-R]` at the beginning of the e-mail subject (otherwise it might get lost in my inbox)
     - 👁️ **I strongly encourage you to write your questions in public so everyone can learn. It is very likely that if you have this question or problem, other classmates also do.**
   
