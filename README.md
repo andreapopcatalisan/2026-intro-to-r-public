@@ -62,8 +62,7 @@ Add a short reflection at the bottom of your script:
 2. What kind of answer did it give you? Was it helpful? Why or why not? Did it contain any errors?
 3. How did you adapt or modify what the AI gave you, if at all?
 
-**📎Submit** via [GitHub Classroom](https://classroom.github.com/a/1l9hp2lL)
-Follow the instructions in [this short tutorial](https://www.youtube.com/watch?v=O0XcZ-c_oF8).
+**📎Submit** Please send me your solutions at andrea.pop@psemail.eu with [intro-to-R + NAME + H1], as the subject.
 
 ---
 ## 📝 Homework 2: Data Visualization
@@ -81,8 +80,7 @@ Add a short reflection at the bottom of your script:
 2. What kind of answer did it give you? Was it helpful? Why or why not? Did it contain any errors?
 3. How did you adapt or modify what the AI gave you, if at all?
 
-**📎Submit** via [GitHub Classroom](https://classroom.github.com/a/HlvFmxvH)
-Follow the instructions in [this short tutorial](https://www.youtube.com/watch?v=O0XcZ-c_oF8).
+**📎Submit** Please send me your solutions at andrea.pop@psemail.eu with [intro-to-R + NAME + H2], as the subject.
 
 ---
 
