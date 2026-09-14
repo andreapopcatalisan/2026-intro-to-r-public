@@ -62,7 +62,7 @@ Add a short reflection at the bottom of your script:
 2. What kind of answer did it give you? Was it helpful? Why or why not? Did it contain any errors?
 3. How did you adapt or modify what the AI gave you, if at all?
 
-**📎Submit** Please send me your solutions at andrea.pop@psemail.eu with [intro-to-R + NAME + H1], as the subject.
+**📎Submit** Please send me your solutions at andreapopcatalisan@gmail.com with [intro-to-R + NAME + H1], as the subject.
 
 ---
 ## 📝 Homework 2: Data Visualization
@@ -80,7 +80,7 @@ Add a short reflection at the bottom of your script:
 2. What kind of answer did it give you? Was it helpful? Why or why not? Did it contain any errors?
 3. How did you adapt or modify what the AI gave you, if at all?
 
-**📎Submit** Please send me your solutions at andrea.pop@psemail.eu with [intro-to-R + NAME + H2], as the subject.
+**📎Submit** Please send me your solutions at andreapopcatalisan@gmail.com with [intro-to-R + NAME + H2], as the subject.
 
 ---
 
@@ -104,7 +104,7 @@ Create a new issue and write down your question **publicly**:
     - Copy and paste the exact warning/error messages you get if there are any
       
 - 📬 If you prefer to send me a message **privately**:
-    - Email me at andrea.pop@psemail.eu
+    - Email me at andrea.pop@psemail.eu or andreapopcatalisan@gmail.com.
     - ⚠️ Don't forget to add `[intro-to-R]` at the beginning of the e-mail subject (otherwise it might get lost in my inbox)
     - 👁️ **I strongly encourage you to write your questions in public so everyone can learn. It is very likely that if you have this question or problem, other classmates also do.**
   
