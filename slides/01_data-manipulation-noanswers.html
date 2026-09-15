@@ -593,18 +593,6 @@ myproject/               ← 📁 Your project folder
 
 
 
-
----
-
-&lt;br&gt;
-
-.greenhead[**IMPORTING AND INSPECTING DATA**]
-
-📥 **Download the data folder from the course website** 
-- We are going to analyze the 250 top rated French Movies in IMDB
-- Open the CSV file in your computer and inspect it: columns are variables and rows are observations
-
-
 ---
 &lt;br&gt;
 
@@ -673,10 +661,19 @@ here("myfile.csv") # Relative path
 "C:/Users/andreapop/Documents/myproject/data/myfile.csv" # Absolute path
 ```
       
-📥 **Download the data folder from the course website** 
 - We are going to analyze the 250 top rated French Movies in IMDB
 - Open the CSV file in your computer and inspect it: columns are variables and rows are observations
 
+      
+---
+
+&lt;br&gt;
+
+.greenhead[**IMPORTING AND INSPECTING DATA**]
+.greenhead[*Example 2*]
+
+
+      
 .nunito[How do we get this data into R?]
 - We import it using *read* functions, which take a file path as an input and give the file content as an output. 
 
@@ -693,6 +690,8 @@ head(imdb, 4)   # Show first four rows
 tail(imdb, 3)   # Show last three rows
 View(imdb)      # Show data in a spreadsheet view
 ```
+
+      
 ---
       
 &lt;br&gt; 
