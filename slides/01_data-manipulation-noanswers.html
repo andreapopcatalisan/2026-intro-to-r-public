@@ -630,7 +630,61 @@ here("data", "myfile.csv") # Relative path
 &lt;br&gt;
 
 .greenhead[**IMPORTING AND INSPECTING DATA**]
+.greenhead[*Example 1*]
+      
+📥 **Download the data folder from the course website called 01_happyR.xls** 
+- We are going to analyze the 2023 World Happiness Report.
+- Open the EXCEL file in your computer and inspect it: columns are variables and rows are observations
 
+.nunito[How do we get this data into R?]
+- We import it using *read_excel* functions, which take a file path as an input and give the file content as an output. 
+
+
+
+```r
+setwd("~/Desktop")
+df <- read_excel("01_happyR.xls")
+# Exploring the data 
+View(df)
+```
+---
+&lt;br&gt;
+
+.greenhead[**IMPORTING AND INSPECTING DATA**]
+.greenhead[*Example 1*]
+      
+**Exploring the data ** 
+
+```r
+summary(df[, c("life_expectancy", "social_support", "wine")])
+summary(df$life_expectancy)
+```
+- The summary statistics suggest that there may be an outlier in the life_expectancy variable. The maximum value appears to be around 140, which is not a plausible value for life expectancy in a country.
+```r
+df[df$life_expectancy >= 140, ]
+``` 
+- This observation corresponds to Spain. Since a life expectancy of 140 years is clearly unrealistic, we can assume that this value is the result of a data-entry or measurement error. Before proceeding with the analysis, we should therefore treat this value as missing.
+
+```r
+df$life_expectancy[df$life_expectancy >= 140] <- NA
+```    
+- Finally, we can use a boxplot to visually inspect the distribution of life expectancy and identify potential outliers:
+
+```r
+boxplot(df$life_expectancy)
+```    
+The boxplot provides a quick visual way to detect unusually high or low values in the variable.  
+---
+
+
+
+      
+
+&lt;br&gt;
+
+.greenhead[**IMPORTING AND INSPECTING DATA**]
+.greenhead[*Example 2*]
+      
 📥 **Download the data folder from the course website** 
 - We are going to analyze the 250 top rated French Movies in IMDB
 - Open the CSV file in your computer and inspect it: columns are variables and rows are observations
@@ -652,7 +706,7 @@ tail(imdb, 3)   # Show last three rows
 View(imdb)      # Show data in a spreadsheet view
 ```
 ---
-
+      
 &lt;br&gt; 
 &lt;br&gt;
 .greenhead[**DID WE DO IT RIGHT?**]
