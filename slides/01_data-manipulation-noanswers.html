@@ -1858,13 +1858,6 @@ Aggregate data into descriptive statistics
 &lt;/tr&gt;
 &lt;/table&gt;]
 
-.pull-right[The **pipe operator** ` %&gt;% ` or `|&gt;` (Ctrl + Shift + M)
-- Allows to chain functions you apply to an object
-- Take X and do this, and this, and this, and ...
-&lt;video autosize: true controls&gt;
-  &lt;source src="./01_pipe_baking.mp4" type="video/mp4"&gt;
-&lt;/video&gt;
-]
 
 ---
 ## MAIN FUNCTIONS IN `dplyr`
@@ -2098,72 +2091,7 @@ imdb %&gt;%
 ##    avg_dur min_dur max_dur
 ## 1 109.1526      13     566
 ```
----
-## MAIN FUNCTIONS IN `dplyr`
-Two useful functions for `mutate()`  
-
-`ifelse()`
-
-```r
-imdb %&gt;% 
-  select(Name, Type) %&gt;% 
-  mutate(restricted = ifelse(Type %in% c("R", "X", "18"), 
-                             TRUE, 
-                             FALSE )) %&gt;% 
-  head()
-```
-
-```
-##                        Name Type restricted
-## 1                     Shoah   PG      FALSE
-## 2                      Home    U      FALSE
-## 3               Untouchable   15      FALSE
-## 4                   Le Trou    A      FALSE
-## 5 The Man Who Planted Trees           FALSE
-## 6      Children of Paradise    A      FALSE
-```
-
-
-
----
-
-## MAIN FUNCTIONS IN `dplyr`
-Two useful functions for `mutate()`  
-
-`ifelse()`
-
-```r
-imdb %&gt;% 
-  select(Name, Type) %&gt;% 
-  mutate(restricted = ifelse(Type %in% c("R", "X", "18"), 
-                             TRUE, 
-                             FALSE )) %&gt;% 
-  head()
-```
-
-
-
-`case_when()`
-
-```r
-imdb &lt;- 
-imdb %&gt;% 
-  mutate(audience = case_when(Type %in% c("R", "X", "18") ~ "Over 17" , 
-                              Type %in% c("PG", "PG-13") ~ "Parental guidance",
-                              Type == "" ~ "No information",
-                              .default = "General audiences")) 
-```
-
-```
-##                        Name Type          audience
-## 1                     Shoah   PG Parental guidance
-## 2                      Home    U General audiences
-## 3               Untouchable   15 General audiences
-## 4                   Le Trou    A General audiences
-## 5 The Man Who Planted Trees         No information
-## 6      Children of Paradise    A General audiences
-```
-
+      
 ---
 ### group_by() AND summarise()
 - `group_by()` allows you to do computations separately for different parts of the data 
