@@ -592,27 +592,6 @@ myproject/               ← 📁 Your project folder
 &lt;img src="inputs/01_myproject_screenshot.png" width="1171" /&gt;
 
 
----
-
-&lt;br&gt;
-
-.greenhead[**FILE PATHS, FOLDERS &amp; PROJECTS**]
-
-**📦Create an R Project in RStudio** 
-1. **File -&gt; New Project** 
-2. Select **New Directory** or **Existing Directory**
-3. Name the project (e.g. `intro_to_R`)
-4. Open the `.Rproj` file every time you work 
-
-📍**Using `here()` for Clean File Paths** 
-
-```r
-install.packages("here")  # Install the package
-library(here)              # Load the package
-here("data", "myfile.csv") # Relative path 
-"C:/Users/andreapop/Documents/myproject/data/myfile.csv" # Absolute path
-```
-
 
 
 ---
@@ -684,6 +663,15 @@ The boxplot provides a quick visual way to detect unusually high or low values i
 
 .greenhead[**IMPORTING AND INSPECTING DATA**]
 .greenhead[*Example 2*]
+
+**Using `here()` for Setting Paths** 
+
+```r
+install.packages("here")  # Install the package
+library(here)              # Load the package
+here("data", "myfile.csv") # Relative path 
+"C:/Users/andreapop/Documents/myproject/data/myfile.csv" # Absolute path
+```
       
 📥 **Download the data folder from the course website** 
 - We are going to analyze the 250 top rated French Movies in IMDB
@@ -698,7 +686,7 @@ The boxplot provides a quick visual way to detect unusually high or low values i
 
 
 ```r
-imdb &lt;- read.csv(here("data", "01_imdb-top250-french.csv"))
+imdb &lt;- read.csv(here("01_imdb-top250-french.csv"))
 
 # Exploring the data 
 head(imdb, 4)   # Show first four rows
