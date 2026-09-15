@@ -1555,6 +1555,85 @@ class: inverse
 
 
 ---
+### ANSWERS 
+
+- Get the name of the shortest movie in the data set &lt;br&gt;
+ 🔍 Use functions `min()`, `substr()`
+
+```r
+imdb$Duration
+```
+
+```
+##   [1] &quot;566 min&quot; &quot;118 min&quot; &quot;112 min&quot; &quot;131 min&quot; &quot;30 min&quot;  &quot;189 min&quot; &quot;122 min&quot;
+##   [8] &quot;131 min&quot; &quot;28 min&quot;  &quot;101 min&quot; &quot;13 min&quot;  &quot;127 min&quot; &quot;145 min&quot; &quot;98 min&quot; 
+##  [15] &quot;99 min&quot;  &quot;99 min&quot;  &quot;122 min&quot; &quot;131 min&quot; &quot;121 min&quot; &quot;139 min&quot; &quot;110 min&quot;
+##  [22] &quot;105 min&quot; &quot;113 min&quot; &quot;118 min&quot; &quot;112 min&quot; &quot;96 min&quot;  &quot;117 min&quot; &quot;86 min&quot; 
+##  [29] &quot;104 min&quot; &quot;83 min&quot;  &quot;110 min&quot; &quot;120 min&quot; &quot;140 min&quot; &quot;91 min&quot;  &quot;113 min&quot;
+....
+```
+---
+
+```r
+min(imdb$Duration)
+```
+
+```
+## [1] &quot;100 min&quot;
+```
+--
+**Is that right?**
+
+```r
+as.numeric(imdb$Duration)
+```
+
+```
+## Warning: NAs introduced by coercion
+```
+
+```
+##   [1] NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA
+....
+```
+--
+
+```r
+imdb$Duration &lt;- substr(imdb$Duration, start = 1, stop = 3) # Get first 3 characters
+imdb$Duration &lt;- as.numeric(imdb$Duration)                  # Convert to numeric
+min(imdb$Duration)                                          # Get minimum duration 
+```
+
+```
+## [1] 13
+```
+
+--
+
+- There are 6 movies that last 104 minutes, what are they called?
+
+--
+
+
+```r
+imdb[imdb$Duration == 104, &quot;Name&quot;]
+```
+
+```
+## [1] &quot;Au Revoir les Enfants&quot;  &quot;Sans Soleil&quot;            &quot;The Phantom of Liberty&quot;
+## [4] &quot;Être et Avoir&quot;          &quot;Pocket Money&quot;           &quot;Les Misérables&quot;
+```
+--
+
+```r
+imdb[imdb$Duration == &quot;104 min&quot;, &quot;Name&quot;]
+```
+
+
+
+
+      
+---
 # AGENDA
 .nunitosm[
 
