@@ -86,25 +86,9 @@ Add a short reflection at the bottom of your script:
 
 
 ## Do you have a question, you can't access the material or your code doesn't run?
-Create a new issue and write down your question **publicly**: 
-- Click `issues` at the top left of this page
-- Click `new issue` at the top right
-- Write a descriptive and short title (very important ability!)
-    - ❌ _I have a question_
-    - ✅ Question on `ggplot()` aesthetics
-    - ✅ What is the difference between `<-` and `=`?
-    - ❌ My code doesn't work
-    - ✅ Problem with `summarise()` function
-    - ✅ Console panel disappeared
-    - ❌ Materials are missing
-    - ✅ Can't find the lecture 2 slides
-    - ✅ Slide 45 is incomplete in lecture 3
-- Explain your problem clearly
-    - Write down your code using Cmd + E,  Ctrl + E or selecting the `< >` symbol
-    - Copy and paste the exact warning/error messages you get if there are any
       
 - 📬 If you prefer to send me a message **privately**:
     - Email me at andrea.pop@psemail.eu or andreapopcatalisan@gmail.com.
     - ⚠️ Don't forget to add `[intro-to-R]` at the beginning of the e-mail subject (otherwise it might get lost in my inbox)
-    - 👁️ **I strongly encourage you to write your questions in public so everyone can learn. It is very likely that if you have this question or problem, other classmates also do.**
+
   
