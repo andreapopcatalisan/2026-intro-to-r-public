@@ -367,15 +367,13 @@ glimpse(imdb)
   imdb &lt;-
     imdb %&gt;% 
   mutate(
-    year = if_else(
-      str_length(Year) == 5,   # If format is "-YYYY"
-      str_sub(Year, 2, 5),     # extract positions 2-5
-      str_sub(Year, 6, 9)      # otherwise extract positions 6-9
-    ),
-    year = as.numeric(year)    # Convert to numeric
-  )
+    avg_year = mean(year, na.rm = TRUE),
+    older_than_avg = year < avg_year
+  ) %&gt;% 
+  select(Name, year, avg_year, older_than_avg, Rating)
 
   head(imdb)
+      
 ```
 --
 
