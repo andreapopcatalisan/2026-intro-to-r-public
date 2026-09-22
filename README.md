@@ -17,13 +17,13 @@ This course is mostly based on [Maria Montoya-Aguirre's](https://mariamontoyaa.g
 ## Lectures:
 You can find the pdf version of the slides in the `slides` folder. 
 1. Data manipulation (Sept 16)
-    - [📄 Open slides](https://andreapopcatalisan.github.io/2026-intro-to-r-public/slides/01_data-manipulation-noanswers.html#1) and [Data](https://github.com/andreapopcatalisan/2026-intro-to-r-public/tree/2026-intro-to-r-public/data)
+    - [📄 Open slides](https://andreapopcatalisan.github.io/2026-intro-to-r-public/slides/01_data-manipulation-noanswers.html#1); [Data](https://github.com/andreapopcatalisan/2026-intro-to-r-public/tree/2026-intro-to-r-public/data) and [Code](https://github.com/andreapopcatalisan/2026-intro-to-r-public/tree/2026-intro-to-r-public/code/class1)
 3. Data visualization (Sept 20)
-    - [📄 Open Slides](https://andreapopcatalisan.github.io/2026-intro-to-r-public/slides/02_data-visualization.html#1) and [Data](https://github.com/andreapopcatalisan/2026-intro-to-r-public/tree/2026-intro-to-r-public/data)
+    - [📄 Open Slides](https://andreapopcatalisan.github.io/2026-intro-to-r-public/slides/02_data-visualization.html#1); [Data](https://github.com/andreapopcatalisan/2026-intro-to-r-public/tree/2026-intro-to-r-public/data) and [Code](https://github.com/andreapopcatalisan/2026-intro-to-r-public/tree/2026-intro-to-r-public/code/class2)
 4. R Markdown, LaTeX and other tools for reproducible research (Sept 30)
-    - [📄 Open Slides](https://andreapopcatalisan.github.io/2026-intro-to-r-public/slides/03_reports-Rmd-Latex.html#1) and [Data](https://github.com/andreapopcatalisan/2026-intro-to-r-public/tree/2026-intro-to-r-public/data)
+    - [📄 Open Slides](https://andreapopcatalisan.github.io/2026-intro-to-r-public/slides/03_reports-Rmd-Latex.html#1); [Data](https://github.com/andreapopcatalisan/2026-intro-to-r-public/tree/2026-intro-to-r-public/data) and [Code](https://github.com/andreapopcatalisan/2026-intro-to-r-public/tree/2026-intro-to-r-public/code/class3)
 6. Econometrics in R (Oct 7)
-    - [📄 Open Slides](https://andreapopcatalisan.github.io/2026-intro-to-r-public/slides/04_econometrics.html#1) and [Data](https://github.com/andreapopcatalisan/2026-intro-to-r-public/tree/2026-intro-to-r-public/data)
+    - [📄 Open Slides](https://andreapopcatalisan.github.io/2026-intro-to-r-public/slides/04_econometrics.html#1); [Data](https://github.com/andreapopcatalisan/2026-intro-to-r-public/tree/2026-intro-to-r-public/data) and [Code](https://github.com/andreapopcatalisan/2026-intro-to-r-public/tree/2026-intro-to-r-public/code/class4)
 
    
 ## 📝 Homework 1: Data Manipulation  
