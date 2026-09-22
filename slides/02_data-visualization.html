@@ -683,18 +683,6 @@ First known graphics applied to economic data were produced by William Playfair 
 
 class: middle
 
-&gt; Information, that is imperfectly acquired, is generally imperfectly retained;
-&gt; and a man (*person*) who has carefully investigated **a printed table**, finds, when done, that (s)he has **only a very faint and partial idea** of what (s)he has read; and that like a figure imprinted on sand, is **soon totally erased and defaced**. [...] 
-
-&gt; On **inspecting any one of these Charts** attentively, a **sufficiently distinct impression** will be made, to **remain unimpaired for a considerable time**, and the idea which does remain will be **simple and complete** [...] 
-&gt; &lt;footer&gt;--- William Playfair in The Commercial and Political Atlas&lt;/footer&gt;
-
-
-
----
-
-class: middle
-
 &lt;img src="inputs/marey-trains-paris-lyon.png" width="80%" style="display: block; margin: auto;" /&gt;
 
 
@@ -1032,9 +1020,8 @@ The quickest functions for the most common modifications:
 wid %&gt;% 
   ggplot(aes(inc_head, top1)) +
   geom_point() +
-* xlab("Income per adult") +
-* ylab("Income share among top 1%") +
-* xlim(0.2, 0.3)
+  xlab("Income per adult") +
+  ylab("Income share among top 1%")
 ```
 
 ![](02_data-visualization_files/figure-html/unnamed-chunk-61-1.png)&lt;!-- --&gt;
@@ -1046,8 +1033,7 @@ wid %&gt;%
   ggplot(aes(inc_head, top1)) +
   geom_point() +
 * xlab(NULL) +
-* ylab("") +
-* ylim(NA, 50000)
+* ylab("") 
 ```
 
 ![](02_data-visualization_files/figure-html/unnamed-chunk-63-1.png)&lt;!-- --&gt;
@@ -1469,18 +1455,6 @@ balance %&gt;%
 ![](02_data-visualization_files/figure-html/unnamed-chunk-98-1.png)&lt;!-- --&gt;
 ---
 
-.nunito[What happens if we don't specify new mappings for each geom?]
-
-```r
-balance %&gt;% 
-  ggplot(aes(x = year, y = exports)) + 
-  geom_line(color = "red") +
-  geom_line(color = "gold") + 
-  theme_minimal(base_size = 20) 
-```
-
-![](02_data-visualization_files/figure-html/unnamed-chunk-99-1.png)&lt;!-- --&gt;
----
 ### LABELING EACH LAYER
 
 ```r
@@ -1515,27 +1489,9 @@ Let's save this plot to add more things to it later:
 ```
 ---
 
-## LABELS
-
-- Adding text to a plot. Your obvious best friend: `geom_text()`. Same as `geom_point()`but with text labels instead of points. Duh 🙄
-
-For example, with our WID data:
-
-```r
-wid %&gt;% 
-  filter(year == 2019 &amp; continent == "Europe") %&gt;% 
-  ggplot(aes(x = inc_head, y = top1)) +
-* geom_text(aes(label = country),
-            alpha = 0.7)
-```
-
-
-![](02_data-visualization_files/figure-html/unnamed-chunk-103-1.png)&lt;!-- --&gt;
----
-
 
 ### LABELS 
-Now, using it with our trade balance plot to highlight three points:
+Using it with our trade balance plot to highlight three points:
 
 ```r
 bal_labels &lt;- # Keep only the data for three years 
@@ -1914,61 +1870,7 @@ After completing this or after at least **30 minutes of trying on your own** —
 3. How did you adapt or modify what the AI gave you, if at all?
 
 Include your R script (with AI reflection) and final image 
----
 
-
-### SLIDES THAT DIDN'T MAKE THE CUT
-
-- Axes can be modified with **scale functions**. The following parameters can be specified:
-  - `name` the label of the axis
-  - `limits` where the axis starts and ends
-  - `breaks` where to put ticks and values on the axis 
-  
-.pull-left[
-
-```r
-wid %&gt;% 
-  ggplot(aes(inc_head, top1)) +
-  geom_point() +
-  
-#  
-```
-]
-.pull-right[
-
-```r
-wid %&gt;% 
-  ggplot(aes(inc_head, top1)) +
-  geom_point() +
-  scale_x_continuous() + 
-  scale_y_continuous()
-```
-]
-
-
-
----
-## Axes
-
-```r
-wid %&gt;% 
-  ggplot(aes(inc_head, top1)) +
-  geom_point() 
-
-                                                      #
-```
-&lt;img src="02_data-visualization_files/figure-html/unnamed-chunk-143-1.png" width="60%" /&gt;
----
-## Axes
-
-```r
-wid %&gt;% 
-  ggplot(aes(inc_head, top1)) +
-  geom_point() +
-  scale_x_continuous(name = "Income per adult",
-                     limits = c(0, 150000)) + 
-  scale_y_continuous(name = "Share of income among top 1%")
-```
 
 &lt;img src="02_data-visualization_files/figure-html/unnamed-chunk-144-1.png" width="60%" /&gt;
 
