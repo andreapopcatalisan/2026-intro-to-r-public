@@ -344,11 +344,11 @@ glimpse(imdb)
 - What do `str_length()` and `str_sub()` do? 
  
 ---
+
+
+
 1) Fix the year variable. This can be done in multiple ways! Try with `str_length()` and `str_sub()`
-
-2) Create a variable that indicates whether a movie is older or more recent than the average year in the sample.
-
-
+      
 ```r
   imdb &lt;-
     imdb %&gt;% 
@@ -357,37 +357,23 @@ glimpse(imdb)
                           str_sub(Year, 2, 5),     #  extract positions 2-5
                           str_sub(Year, 6, 9)),    #  otherwise it's "(I) (YYYY)"  
                                                    #  so, keep positions 6-9
-           year = as.numeric(year)) %&gt;%            # Convert to numeric
-  
-
-  
-  
-  
-  
-  
- # 
-```
----
-
-1) Fix the year variable. This can be done in multiple ways! Try with `str_length()` and `str_sub()`
-
+           year = as.numeric(year)) 
+  ```
+      
 2) Create a variable that indicates whether a movie is older or more recent than the average year in the sample.
 
 
 ```r
   imdb &lt;-
     imdb %&gt;% 
-    # Fix year variable 
-    mutate(year = if_else(str_length(Year) == 5,   # If format is "-YYYY",
-                          str_sub(Year, 2, 5),     #  extract positions 2-5
-                          str_sub(Year, 6, 9)),    #  otherwise it's "(I) (YYYY)"  
-                                                   #  so, keep positions 6-9
-           year = as.numeric(year)) %&gt;%            # Convert to numeric
-  
-    # Create an "older than average" indicator 
-    mutate(avg_year = mean(year),                  # Calculate average year
-           older_than_avg = year &lt; avg_year) %&gt;%   # Create indicator 
-    select(Name, year, avg_year, older_than_avg, Rating )
+  mutate(
+    year = if_else(
+      str_length(Year) == 5,   # If format is "-YYYY"
+      str_sub(Year, 2, 5),     # extract positions 2-5
+      str_sub(Year, 6, 9)      # otherwise extract positions 6-9
+    ),
+    year = as.numeric(year)    # Convert to numeric
+  )
 
   head(imdb)
 ```
