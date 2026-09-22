@@ -1357,6 +1357,61 @@ ggsave(here("outputs", "myplot.png"),    # Where
        height = 9,
        unit = "cm")        # Units
 ```
+
+---
+
+### Axes
+
+- Axes can be modified with **scale functions**. The following parameters can be specified:
+  - `name` the label of the axis
+  - `limits` where the axis starts and ends
+  - `breaks` where to put ticks and values on the axis 
+  
+.pull-left[
+
+```r
+wid %&gt;% 
+  ggplot(aes(inc_head, top1)) +
+  geom_point() +
+  
+#  
+```
+]
+.pull-right[
+
+```r
+wid %&gt;% 
+  ggplot(aes(inc_head, top1)) +
+  geom_point() +
+  scale_x_continuous() + 
+  scale_y_continuous()
+```
+]
+
+
+
+---
+## Axes
+
+```r
+wid %&gt;% 
+  ggplot(aes(inc_head, top1)) +
+  geom_point() 
+
+                                                      #
+```
+&lt;img src="02_data-visualization_files/figure-html/unnamed-chunk-143-1.png" width="60%" /&gt;
+---
+## Axes
+
+```r
+wid %&gt;% 
+  ggplot(aes(inc_head, top1)) +
+  geom_point() +
+  scale_x_continuous(name = "Income per adult",
+                     limits = c(0, 150000)) + 
+  scale_y_continuous(name = "Share of income among top 1%")
+```      
 ---
 # AGENDA
 .nunitosm[
