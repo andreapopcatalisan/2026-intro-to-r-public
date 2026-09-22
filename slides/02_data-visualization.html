@@ -530,16 +530,8 @@ str_sub(parse_number(Year), 2, 5) # Keep only numbers, and then only the last 4 
 
 
 ```r
-imdb %&gt;% 
-  mutate(decade = ...)
-
-paste(str_sub(Year, start = 3, end = 3),"0s", sep="") # Get the third string, and add "0s"
-
-as.numeric(substr(Year, start = 1, stop=3)) * 10 # Get first three digits of year and multiply by 10 
-
-floor(Year/10) * 10 # Divide the year by 10 and round downwards
-
-Year %/% 10 * 10 # Integer division, get the quotient 
+imdb <- imdb %>% 
+  mutate(decade = floor(year / 10) * 10)
 ```
 ---
 class: inverse
