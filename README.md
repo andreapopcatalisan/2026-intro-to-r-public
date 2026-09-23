@@ -27,7 +27,7 @@ You can find the pdf version of the slides in the `slides` folder.
 
    
 ## 📝 Homework 1: Data Manipulation  
-**Due:** September 17 at 23:59.
+
 
 ### ✅ Task 1: Inspect the IMDB dataset
 
@@ -66,7 +66,7 @@ Add a short reflection at the bottom of your script:
 
 ---
 ## 📝 Homework 2: Data Visualization
-**Due:** September 21 at 23:59.
+
 
 Use the `02_playfair-wages-wheat.sv` dataset and replicate [this graph](slides/playfair-wages-wheat.png) as best as you can using `ggplot()`
 
