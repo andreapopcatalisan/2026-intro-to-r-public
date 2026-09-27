@@ -1139,7 +1139,674 @@ class:center
   - For example, I always have to create geographic IDs from state and municipality variables. I have a snippet in my code library (basically a function) that I just call to do this. 
   
 ---
+---
 
+### 3. LaTeX for equations
+
+#### 3.2. LaTeX syntax
+
+ * To include a **LaTeX equation** in Quarto, you simply have to surround it with the **`$` sign**:
+ 
+--
+ 
+ &lt;p style = &quot;margin-bottom:-.5cm;&quot;&gt;
+ 
+.pull-left[
+&lt;center&gt; &lt;h4&gt; Syntax &lt;/h4&gt; &lt;/center&gt;
+
+`1 + 1`
+
+`$1 + 1$`
+
+]
+
+.pull-right[
+&lt;h4&gt; Output &lt;/h4&gt;
+
+1 + 1
+
+`\(1 + 1\)`
+
+]
+
+--
+
+&lt;p style = &quot;margin-bottom:1.25cm;&quot;&gt;
+
+ * LaTeX is a convenient way to display **mathematical symbols** and to **structure equations**
+  * The **syntax** is mainly based on **backslashes \ and braces {}**
+
+&lt;p style = &quot;margin-bottom:1cm;&quot;&gt;
+
+--
+
+&lt;center&gt;&lt;h4 style = &quot;margin-bottom:.25cm;&quot;&gt; Example: &lt;/h4&gt;&lt;/center&gt; 
+&lt;p style = &quot;margin-bottom:.25cm;&quot;&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;#10140; What you type in the text area: `$x \neq \frac{\alpha \times \beta}{2}$`  
+&lt;/p&gt;
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;#10140; What is rendered as an output: `\(x \neq \frac{\alpha \times \beta}{2}\)`
+
+---
+
+### 3. LaTeX for equations
+
+#### 3.2. LaTeX syntax
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;#10140; **Common greek letters** 
+
+&lt;p style = &quot;margin-bottom:-.25cm;&quot;&gt;
+ 
+.pull-left[
+&lt;center&gt; &lt;h4&gt; Syntax &lt;/h4&gt; &lt;/center&gt;
+
+`$\alpha$`  
+`$\beta$`  
+`$\gamma$` `$\Gamma$`  
+`$\delta$` `$\Delta$`  
+`$\epsilon$` `$\varepsilon$`  
+`$\lambda` `\Lambda$`  
+`$\phi$` `$\Phi$`  
+`$\pi$` `$\Pi$`  
+`$\psi$` `$\Psi$`  
+`$\theta$` `$\Theta$`  
+`$\sigma$` `$\Sigma$`  
+...
+
+]
+
+.pull-right[
+&lt;center&gt; &lt;h4&gt; Output &lt;/h4&gt; &lt;/center&gt;
+
+`\(\alpha\)`  
+`\(\beta\)`  
+`\(\gamma\)` `\(\Gamma\)`  
+`\(\delta\)` `\(\Delta\)`  
+`\(\epsilon\)` `\(\varepsilon\)`  
+`\(\lambda\)` `\(\Lambda\)`  
+`\(\phi\)` `\(\Phi\)`  
+`\(\pi\)` `\(\Pi\)`  
+`\(\psi\)` `\(\Psi\)`  
+`\(\theta\)` `\(\Theta\)`  
+`\(\sigma\)` `\(\Sigma\)`  
+...
+
+]
+
+---
+
+### 3. LaTeX for equations
+
+#### 3.2. LaTeX syntax
+ 
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;#10140; **Common symbols** 
+ 
+.pull-left[
+&lt;center&gt; &lt;h4&gt; Syntax &lt;/h4&gt; &lt;/center&gt;
+
+`$+ - \pm$`  
+`$\times \div$`  
+`$= \neq \equiv \approx$`  
+`$&gt; &lt; \geq \leq \lessgt$`  
+`$\rightarrow \leftarrow \Leftrightarrow$`  
+`$\in \notin$`  
+`$\forall \exists \nexists$`  
+`$\infty$`  
+`$\sum \prod \int$`  
+...
+
+]
+
+.pull-right[
+&lt;center&gt; &lt;h4&gt; Output &lt;/h4&gt; &lt;/center&gt;
+
+`\(+\)` `\(-\)` `\(\pm\)`  
+`\(\times\)` `\(\div\)`  
+`\(=\)` `\(\neq\)` `\(\equiv\)` `\(\approx\)`  
+`\(&gt;\)` `\(&lt;\)` `\(\geq\)` `\(\leq\)` `\(\lessgtr\)`  
+`\(\rightarrow\)` `\(\leftarrow\)` `\(\Leftrightarrow\)`  
+`\(\in\)` `\(\notin\)`  
+`\(\forall\)` `\(\exists\)` `\(\nexists\)`  
+`\(\infty\)`  
+`\(\sum\)` `\(\prod\)` `\(\int\)`  
+...
+
+]
+
+---
+
+### 3. LaTeX for equations
+
+#### 3.2. LaTeX syntax
+ 
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;#10140; **Exponents and accentuation**
+ 
+.pull-left[
+&lt;center&gt; &lt;h4&gt; Syntax &lt;/h4&gt; &lt;/center&gt;
+
+`$x^a$`  
+`$x_b$`  
+`$x^a_b$`  
+`$x^{a, i}_{b, j}$`  
+&lt;p style = &quot;margin-bottom:.25cm;&quot;&gt;  
+`$\hat{\beta} \widehat{\beta_{i,j}}$`  
+`$\tilde{\beta} \widetilde{\beta_{i,j}}$`  
+`$\overline{x} \underline{x}$`  
+`$\overrightarrow{x} \underleftarrow{x}$`  
+...
+
+]
+
+.pull-right[
+&lt;center&gt; &lt;h4&gt; Output &lt;/h4&gt; &lt;/center&gt;
+
+`\(x^a\)`  
+`\(x_b\)`  
+`\(x^a_b\)`  
+`\(x^{a, i}_{b, j}\)`  
+`\(\hat{\beta}\)` `\(\widehat{\beta_{i,j}}\)`  
+`\(\tilde{\beta}\)` `\(\widetilde{\beta_{i,j}}\)`  
+`\(\overline{x}\)` `\(\underline{x}\)`  
+`\(\overrightarrow{x}\)` `\(\underleftarrow{x}\)`  
+...
+
+]
+
+---
+
+### 3. LaTeX for equations
+
+#### 3.2. LaTeX syntax
+ 
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;#10140; **Math constructs and variable sized symbols**
+ 
+.pull-left[
+&lt;center&gt; &lt;h4&gt; Syntax &lt;/h4&gt; &lt;/center&gt;
+
+`$\frac{a \times b}{c}$`  
+`$\sqrt{x} \sqrt[n]{x}$`  
+`$\sum_{i = 1}^N$`  
+`$\prod_{i = 1}^N$`  
+`$\int_a^b$`  
+&lt;p style = &quot;margin-bottom:.5cm;&quot;&gt;  
+`$\overline{x}=\frac{1}{N}\sum_{i=1}^N x_i$`  
+...
+
+]
+
+.pull-right[
+&lt;center&gt; &lt;h4&gt; Output &lt;/h4&gt; &lt;/center&gt;
+
+`\(\frac{a \times b}{c}\)`  
+`\(\sqrt{x}\)` `\(\sqrt[n]{x}\)`  
+`\(\sum_{i = 1}^N\)`  
+`\(\prod_{i = 1}^N\)`  
+`\(\int_a^b\)`  
+
+`\(\overline{x}=\frac{1}{N}\sum_{i=1}^N x_i\)`  
+...
+
+]
+
+---
+
+### 3. LaTeX for equations
+
+#### 3.3. Large equations
+
+&lt;ul&gt;
+  &lt;li&gt;Surrounding a LaTeX input with &lt;b&gt;one $&lt;/b&gt; on each side is suitable for &lt;b&gt;inline equation&lt;/b&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+--
+
+&lt;p style = &quot;margin-bottom:1cm;&quot;&gt; 
+
+&lt;ul&gt;
+  &lt;li&gt;You can also surround a LaTeX input with &lt;b&gt;two $&lt;/b&gt; on each side&lt;/li&gt;
+  &lt;ul&gt;
+    &lt;li&gt;It puts the equation at the &lt;b&gt;center of a new line&lt;/b&gt;&lt;/li&gt;
+    &lt;li&gt;And gives &lt;b&gt;more vertical space&lt;/b&gt; to the equation&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/ul&gt; 
+ 
+--
+
+&lt;p style = &quot;margin-bottom:1cm;&quot;&gt; 
+
+&lt;ul&gt;
+  &lt;li&gt;Surrounding a LaTeX input with two $ is usually good for:&lt;/li&gt;
+  &lt;ul&gt;
+    &lt;li&gt;Large equations&lt;/li&gt;
+    &lt;li&gt;Equations that should be emphasized&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/ul&gt; 
+
+--
+
+&lt;p style = &quot;margin-bottom:-.25cm;&quot;&gt; 
+
+.pull-left[
+
+&lt;h4 style = &quot;margin-bottom:-.5cm;&quot;&gt;The mean formula with one `$` on each side&lt;/h4&gt;  
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;#10140; For inline equations  
+ 
+`\(\overline{x}=\frac{1}{N}\sum_{i=1}^N x_i\)` 
+
+]
+
+.pull-right[
+
+&lt;h4 style = &quot;margin-bottom:-.5cm;&quot;&gt;The mean formula with two `$` on each side&lt;/h4&gt;  
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;#10140; For large/emphasized equations  
+ 
+`$$\overline{x}=\frac{1}{N}\sum_{i=1}^N x_i$$` 
+
+]
+
+---
+
+### 3. LaTeX for equations
+
+#### 3.3. Large equations
+
+&lt;ul&gt;
+  &lt;li&gt;Sometimes you do not want two &lt;b&gt;consecutive lines&lt;/b&gt; of equations to be centered&lt;/li&gt;
+  &lt;ul&gt;
+    &lt;li&gt;You may want to &lt;b&gt;align&lt;/b&gt; them based on a &lt;b&gt;common part&lt;/b&gt; within the equations&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/ul&gt;
+
+--
+
+&lt;p style = &quot;margin-bottom:1cm;&quot;&gt;
+
+ * This should be done in an **`aligned` environment** (`$\begin{aligned}...\end{aligned}$`)
+
+&lt;p style = &quot;margin-bottom:-.5cm;&quot;&gt;  
+
+&lt;ul&gt;
+  &lt;ul&gt;
+    &lt;li&gt;Place the &lt;b&gt;&quot;&amp;&quot;&lt;/b&gt; symbol where the equations should be aligned&lt;/li&gt;
+    &lt;li&gt;And break a line using &lt;b&gt;&quot;\\&quot;&lt;/b&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/ul&gt;
+
+&lt;p style = &quot;margin-bottom:1cm;&quot;&gt;
+
+--
+
+```
+$$
+\begin{aligned}
+x &amp; = (a + b) \times c \\
+  &amp; = (a \times c) + (b \times c)
+\end{aligned}
+$$
+```
+
+`$$\begin{aligned}
+x &amp; = (a + b) \times c \\
+  &amp; = (a \times c) + (b \times c)
+\end{aligned}$$`
+
+---
+
+### 3. LaTeX for equations
+
+#### 3.3. Large equations
+ 
+ * The same principle applies within **`cases` environment**
+
+--
+
+```
+$$\text{Med}(x) = \begin{cases} 
+  x[\frac{N+1}{2}]                          &amp; \text{if } N \text{ is odd}\\
+  \frac{x[\frac{N}{2}]+x[\frac{N}{2}+1]}{2} &amp; \text{if } N \text{ is even}
+\end{cases}$$
+```
+
+`$$\text{Med}(x) = \begin{cases} 
+  x[\frac{N+1}{2}]                          &amp; \text{if } N \text{ is odd}\\
+  \frac{x[\frac{N}{2}]+x[\frac{N}{2}+1]}{2} &amp; \text{if } N \text{ is even}
+\end{cases}$$`
+
+--
+
+ * Note that the **`text` function** allows to write text without it being interpreted as mathematical letters:
+
+&lt;p style = &quot;margin-bottom:-.5cm;&quot;&gt; 
+
+--
+
+.pull-left[
+```
+$$Mean(x)=\frac{1}{N}\sum_{i=1}^N x_i$$
+```
+`$$Mean(x)=\frac{1}{N}\sum_{i=1}^N x_i$$`
+]
+
+.pull-right[
+```
+$$\text{Mean}(x)=\frac{1}{N}\sum_{i=1}^N x_i$$
+```
+`$$\text{Mean}(x)=\frac{1}{N}\sum_{i=1}^N x_i$$`
+]
+
+---
+
+class: inverse, hide-logo
+
+### Practice
+
+&lt;p style = &quot;margin-bottom:3cm;&quot;&gt;&lt;/p&gt;
+
+#### 1) Inside your .qmd, reproduce the following mathematical expression
+
+`$$Y_i = \alpha + \beta X_i + \varepsilon_i$$`
+
+--
+
+&lt;p style = &quot;margin-bottom:2cm;&quot;&gt;&lt;/p&gt;
+
+#### 2) Then reproduce the following sentence
+
+`\(\hat{Y_i}\)` denote the fitted values of the model.
+
+--
+
+&lt;p style = &quot;margin-bottom:3cm;&quot;&gt;&lt;/p&gt;
+&lt;center&gt;&lt;h3&gt;&lt;i&gt;You&#39;ve got 3 minutes!&lt;/i&gt;&lt;/h3&gt;&lt;/center&gt;
+
+<countdown-timer class="countdown" id="timer_37e7b279" minutes="3" seconds="0" update-every="1" start-immediately="true" tabindex="0" style="top:0;right:0;--countdown-color-border:#DFE6EB;--countdown-color-text:#DFE6EB;--countdown-color-running-background:#DFE6EB;--countdown-color-running-text:#014D64;--countdown-color-finished-background:#014D64;--countdown-color-finished-text:#DFE6EB;"></countdown-timer>
+
+---
+
+class: inverse, hide-logo
+
+### Solution
+
+&lt;p style = &quot;margin-bottom:3cm;&quot;&gt;&lt;/p&gt;
+
+#### 1) Inside your .qmd, reproduce the following mathematical expression
+
+`$$Y_i = \alpha + \beta X_i + \varepsilon_i$$`
+
+--
+
+```
+$$Y_i = \alpha + \beta X_i + \varepsilon_i$$
+```
+
+--
+
+&lt;p style = &quot;margin-bottom:2cm;&quot;&gt;&lt;/p&gt;
+
+#### 2) Then reproduce the following sentence
+
+`\(\hat{Y_i}\)` denote the fitted values of the model.
+
+--
+
+```
+$\hat{Y_i}$ denote the fitted values of the model.
+```
+
+---
+
+
+&lt;h3&gt;Overview&lt;/h3&gt;
+
+&lt;p style = &quot;margin-bottom:2.5cm;&quot;&gt;&lt;/p&gt;
+
+.pull-left[
+
+&lt;ul style = &quot;margin-left:1.5cm;list-style: none&quot;&gt;
+  &lt;li&gt;&lt;b&gt;1. Basic principles &amp;#10004;&lt;/b&gt;&lt;/li&gt;
+  &lt;ul style = &quot;list-style: none&quot;&gt;
+    &lt;li&gt;1.1. What is Quarto?&lt;/li&gt;
+    &lt;li&gt;1.2. YAML header&lt;/li&gt;
+    &lt;li&gt;1.3. Code chunks&lt;/li&gt;
+    &lt;li&gt;1.4. Text formatting&lt;/li&gt;
+    &lt;li&gt;1.5. Run and render your code&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/ul&gt;
+
+&lt;p style = &quot;margin-bottom:1cm;&quot;&gt;&lt;/p&gt;
+
+&lt;ul style = &quot;margin-left:1.5cm;list-style: none&quot;&gt;
+  &lt;li&gt;&lt;b&gt;2. Useful features &amp;#10004;&lt;/b&gt;&lt;/li&gt;
+  &lt;ul style = &quot;list-style: none&quot;&gt;
+    &lt;li&gt;2.1. Inline code&lt;/li&gt;
+    &lt;li&gt;2.2. Tables&lt;/li&gt;
+    &lt;li&gt;2.3. Preset themes&lt;/li&gt;
+    &lt;li&gt;2.4. Report parameters&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/ul&gt;
+
+]
+
+.pull-right[
+
+&lt;ul style = &quot;margin-left:-1cm;list-style: none&quot;&gt;
+  &lt;li&gt;&lt;b&gt;3. LaTeX for equations &amp;#10004;&lt;/b&gt;&lt;/li&gt;
+  &lt;ul style = &quot;list-style: none&quot;&gt;
+    &lt;li&gt;3.1. What is LaTeX?&lt;/li&gt;
+    &lt;li&gt;3.2. LaTeX syntax&lt;/li&gt;
+    &lt;li&gt;3.3. Large equations&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/ul&gt;
+ 
+&lt;p style = &quot;margin-bottom:1cm;&quot;&gt;&lt;/p&gt;
+
+&lt;ul style = &quot;margin-left:-1cm;list-style: none&quot;&gt;
+  &lt;li&gt;&lt;b&gt;4. Best coding practices&lt;/b&gt;&lt;/li&gt;
+  &lt;ul style = &quot;list-style: none&quot;&gt;
+    &lt;li&gt;4.1. Organize and name your files appropriately&lt;/li&gt;
+    &lt;li&gt;4.2. Write a master script and README&lt;/li&gt;
+    &lt;li&gt;4.3. Write readable code&lt;/li&gt;
+    &lt;li&gt;4.4. Keep improving your skills&lt;/li&gt;
+    &lt;li&gt;4.5. Track your changes&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/ul&gt;
+]
+
+---
+
+### 4. Best coding practices
+#### 4.1 Organize and name your files appropriately
+- For every project, separate your files into folders (data, scripts, outputs, etc.)
+- [Name your files](https://www2.stat.duke.edu/~rcs46/lectures_2015/01-markdown-git/slides/naming-slides/naming-slides.pdf) in a way that is: 
+  - **Machine readable**: avoid spaces, special characters, case sensitivity. Use underscores or hyphens to separate words.
+  - **Human readable**: use descriptive names that provides enough info on content
+  - **Consistent with default ordering**: 
+    &lt;ul style = &quot;margin-left:1cm;&quot;&gt;
+      &lt;li&gt;&lt;code&gt;01_data_cleaning.R&lt;/code&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;code&gt;02_data_analysis.R&lt;/code&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;code&gt;03_data_visualization.R&lt;/code&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+
+---
+
+### 4. Best coding practices
+#### 4.2 Write a master script and README
+- Master script: a single script that runs all the other scripts in the correct order. It should be the only script you need to run to reproduce your results. Structure:
+  1. Intro header with main information about the project (title, author, date, purpose)
+  2. Specify required packages and user-created programs
+  3. Specify settings like the R version used, default theme for graphs and tables, etc.
+  4. Define control variables or categories that will be used throughout the project
+  5. Run all the other scripts in the correct order
+
+- Write a README file that explains the purpose of the project, how to run it, and what each file does.
+
+---
+
+### 4. Best coding practices
+#### 4.3 Write readable code
+&lt;ul&gt;
+  &lt;li style = &quot;margin-bottom:.45cm;&quot;&gt;White space makes everything better.&lt;/li&gt;
+  &lt;li style = &quot;margin-bottom:.45cm;&quot;&gt;Using &lt;code&gt;# Headers ---&lt;/code&gt; and indenting creates a useful outline.&lt;/li&gt;
+  &lt;li style = &quot;margin-bottom:.45cm;&quot;&gt;Follow the &lt;a href = &quot;https://style.tidyverse.org/&quot;&gt;tidyverse style guide&lt;/a&gt;. Lines should be shorter than 80 characters.&lt;/li&gt;
+  &lt;li style = &quot;margin-bottom:.45cm;&quot;&gt;Define variables with descriptive names: avoid too much abbreviation and keep formatting consistent.&lt;/li&gt;
+  &lt;ul&gt;
+    &lt;li&gt;&lt;code&gt;d_...&lt;/code&gt; for dummy variables: &lt;code&gt;d_female&lt;/code&gt;, &lt;code&gt;d_urban&lt;/code&gt;, etc.&lt;/li&gt;
+    &lt;li&gt;&lt;code&gt;n_...&lt;/code&gt; for count variables: &lt;code&gt;n_children&lt;/code&gt;, &lt;code&gt;n_household_members&lt;/code&gt;, &lt;code&gt;n_employees&lt;/code&gt;, etc.&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/ul&gt;
+
+---
+
+### 4. Best coding practices
+#### 4.4 Keep improving your skills
+
+&lt;h4&gt;When your code works, you&#39;re only half done&lt;/h4&gt;
+
+&lt;p style = &quot;margin-bottom:.25cm;&quot;&gt;
+
+.pull-left[
+
+``` r
+data %&gt;%
+  mutate(
+    income = log1p(income),
+    expenses = log1p(expenses),
+    savings = log1p(savings),
+    debt = log1p(debt)
+  )
+```
+]
+
+.pull-right[
+
+``` r
+data %&gt;%
+  mutate(
+    across(
+      c(income, expenses, savings, debt),
+      log1p
+    )
+  )
+```
+]
+
+&lt;p style = &quot;margin-top:.25cm;&quot;&gt;
+
+* **Don&#39;t repeat yourself:** look for patterns that can be expressed once.
+* **Break up long commands:** each step should have one clear purpose.
+* **Use defensive programming:** write tests and checks for your data.
+* **Avoid magic constants:** explain values such as thresholds in a named object.
+
+
+``` r
+threshold &lt;- 58.7
+data[data$x &lt; threshold, ]
+```
+
+---
+## 4. Best coding practices
+#### 4.5 Track your changes
+.pull-left[
+- Using file naming conventions (such as adding dates and initials as suffixes) is better than no version control, but it can get out of control very quickly.
+- `git` is currently the best version control system out there: you can track changes and revert to old versions easily.
+
+Learn how to use GitHub with [DIME Analytics GitHub trainings](https://osf.io/e54gy/overview). Start [here](https://osf.io/s6hf7).
+]
+
+.pull-right[
+&lt;img src = &quot;data:image/png;base64,#slides_elements/figures/final_doc.jpg&quot; width = &quot;300&quot;/&gt;
+]
+
+---
+
+### 5. Wrap up!
+
+#### 1. Three types of contents
+
+.left-column[
+&lt;p style = &quot;margin-bottom:1.5cm;&quot;&gt;
+
+&lt;b&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;YAML header &amp;#10140;&lt;/b&gt;
+
+&lt;p style = &quot;margin-bottom:1.75cm;&quot;&gt;
+
+&lt;b&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;Code chunks &amp;#10140;&lt;/b&gt;
+
+&lt;p style = &quot;margin-bottom:1.75cm;&quot;&gt;
+
+&lt;b&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;Text &amp;#10140;&lt;/b&gt;
+]
+
+.right-column[
+&lt;img src = &quot;data:image/png;base64,#slides_elements/figures/report_example_3.png&quot; width = &quot;700&quot;/&gt;
+]
+
+---
+
+### 5. Wrap up!
+
+#### 2. Useful features
+
+&amp;#10140; **Inline code** allows to include the output of some **R code within text areas** of your report
+
+&lt;p style = &quot;margin-bottom:-.5cm;&quot;&gt;
+
+--
+
+.pull-left[
+&lt;center&gt; &lt;h4&gt; Syntax &lt;/h4&gt; &lt;/center&gt;
+
+
+``` r
+`paste(&quot;a&quot;, &quot;b&quot;, sep = &quot;-&quot;)`
+```
+
+
+``` r
+`r paste(&quot;a&quot;, &quot;b&quot;, sep = &quot;-&quot;)`
+```
+
+]
+
+.pull-right[
+&lt;center&gt; &lt;h4&gt; Output &lt;/h4&gt; &lt;/center&gt;
+
+`paste(&quot;a&quot;, &quot;b&quot;, sep = &quot;-&quot;)`
+
+&lt;p style = &quot;margin-bottom:1cm;&quot;&gt;
+
+a-b
+ 
+]
+
+&lt;p style = &quot;margin-bottom:2cm;&quot;&gt;
+
+--
+
+&amp;#10140; **`kable()`** for clean **html tables** and **`datatable()`** to navigate in **large tables**
+ 
+
+``` r
+kable(results_table)
+datatable(results_table)
+```
+
+---
+
+### 5. Wrap up!
+
+#### 3. LaTeX for equations
+
+ * `\(\LaTeX\)` is a convenient way to display **mathematical** symbols and to structure **equations**
+  * The **syntax** is mainly based on **backslashes \ and braces {}**
+
+--
+
+&lt;p style = &quot;margin-bottom:1cm;&quot;&gt;
+
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;#10140; What you **type** in the text area: `$x \neq \frac{\alpha \times \beta}{2}$`  
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;#10140; What is **rendered** as an output: `\(x \neq \frac{\alpha \times \beta}{2}\)`
+
+--
 
 ---
 # Resources
