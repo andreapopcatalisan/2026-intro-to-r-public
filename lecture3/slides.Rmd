@@ -1,8 +1,8 @@
 ---
 title: "Quarto & LaTeX"
 subtitle: "Lecture 3"
-author: "<br>Elisa Alonso Herrero"
-date: "M1 PPD - Fall 2026"
+author: "<br>Andrea Pop Catalisan"
+date: "M1 APE - Fall 2026"
 output:
   xaringan::moon_reader:  
     self_contained: true
