@@ -1,0 +1,2521 @@
+---
+title: "Quarto & LaTeX"
+subtitle: "Lecture 3"
+author: "<br>Elisa Alonso Herrero"
+date: "M1 PPD - Fall 2026"
+output:
+  xaringan::moon_reader:  
+    self_contained: true
+    css: 
+        - slides_elements/xaringan-themer.css
+        - slides_elements/theme.css
+    includes:
+      in_header: slides_elements/header.html
+    lib_dir: slides_elements/libs
+    nature:
+      ratio: '16:9'
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include = FALSE}
+source(paste0(getwd(), "/../site_elements/style.R"))
+library(knitr)
+library(dplyr)
+library(ggplot2)
+library(DT)
+stargazer <- stargazer::stargazer
+theme_minimal <- theme_Rcourse
+options(htmltools.dir.version = F)
+knitr::opts_chunk$set(echo = T, message = F, warning = F, fig.align = "center", dpi = 300, out.width = "100%")
+```
+
+### Quick reminder
+
+<p style = "margin-bottom:2cm;">
+
+<center><h4> The 3 core components of the ggplot() function </h4></center>
+
+--
+
+```{r, echo = F}
+kable(tibble(Component = c("Data", "Mapping", "Geometry"),
+             Contribution = c("Underlying values", "Axis assignment", "Type of plot"),
+             Implementation = c("ggplot(data, | data %>% ggplot(.,", 
+                                "aes(x = V1, y = V2, ...))",
+                                "+ geom_point() + geom_line() + ...")), 
+      caption = "",
+      align = "lcc")
+```
+
+<p style = "margin-bottom:2cm;">
+
+--
+
+ * Any **other element** should be added with a **`+` sign**
+
+--
+
+```{r, eval = F}
+ggplot(data, aes(x = V1, y = V2)) + 
+  geom_point() + geom_line() +
+  anything_else()
+```
+
+---
+
+### Quick reminder
+
+.pull-left[
+<p style = "margin-bottom:1.75cm;">
+<center><h4> Main customization tools </h4></center>
+```{r, echo = F}
+kable(tibble(`Item to customize` = c("Axes", "Baseline theme", "Annotations", "Theme"),
+             `Main functions` = c("scale_[x/y]_[continuous/discrete]", 
+                                  "theme_[void/minimal/.../dark]()", 
+                                  "geom_[[h/v]line/text](), annotate()",
+                                  "theme(axis.[line/ticks].[x/y] = ...,")), 
+      caption = "", align = "ll")
+```
+]
+
+--
+
+.pull-right[
+<center><h4> Main types of geometry </h4></center>
+```{r, echo = F}
+kable(tibble(Geometry = c("Bar plot", "Histogram", "Area", "Line", 
+                          "Density", "Boxplot", "Violin", "Scatter plot"),
+             Function = c("geom_bar()", "geom_histogram()", "geom_area()", 
+                          "geom_line()", "geom_density()", "geom_boxplot()",
+                          "geom_violin()", "geom_point()")), caption = "", align = "lc") 
+```
+]
+
+---
+
+### Quick reminder
+
+.pull-left[
+
+<center><h4> Main types of aesthetics </h4></center>
+
+```{r, echo = F}
+kable(tibble(Argument = c("alpha", "color", "fill", "size", "shape", "linetype"),
+             Meaning = c("opacity from 0 to 1",
+                         "color of the geometry", 
+                         "fill color of the geometry", 
+                         "size of the geometry", 
+                         "shape for geometries like points", 
+                         "solid, dashed, dotted, etc.")), caption = "")
+```
+]
+
+--
+
+.pull-right[
+
+<p style = "margin-bottom:3.25cm;"></p>
+
+<ul>
+  <li>If specified <b>in the geometry</b></li>
+  <ul>
+    <li>It will apply uniformly to <b>all the geometry</b></li>
+  </ul>
+</ul>
+ 
+<p style = "margin-bottom:1cm;"></p>
+
+<ul>
+  <li>If assigned to a variable <b>in aes</b></li>
+  <ul>
+    <li>It will <b>vary with the variable</b> according to a scale documented in legend</li>
+  </ul>
+</ul>
+]
+
+<br>
+
+--
+
+```{r, eval = F}
+ggplot(data, aes(x = V1, y = V2, size = V3)) + 
+  geom_point(color = "steelblue", alpha = .6)
+```
+
+---
+
+class: inverse, hide-logo
+
+### Warm up practice
+
+<ul>
+  <li>Today we're going to use the <a href = "https://www.insee.fr/fr/statistiques/2540004?sommaire=4767262"><b><i>"Fichier des prénoms"</i></b></a></li>
+  <ul>
+    <li>This is where the INSEE reports the <b>birth count</b> associated with <b>each first name in France</b></li>
+    <li>It is <b>virtually exhaustive from 1946</b>, when the INSEE was founded</li>
+  </ul>
+</ul>
+
+<p style = "margin-bottom:1.25cm;"></p>
+
+--
+
+```{r, eval = F}
+names <- rio::import(here::here("lecture3", "fichier_prenoms.csv"))
+str(names)
+```
+
+```{r, echo = F}
+names <- rio::import(here::here("lecture3", "slides_elements", "data", "fichier_prenoms.csv"))
+str(names)
+```
+
+--
+
+<p style = "margin-bottom:1.25cm;"></p>
+
+ * **`sexe`:** `1` for Male and `2` for Female
+ * **`preusuel`:** first name *(`_PRENOMS_RARES` gathers rare first names for anonymity considerations)*
+ * **`annais`:** birth year *(`XXXX` groups unknown birth years)*
+ * **`nombre`:** number of newborns for the corresponding sex/name/year
+
+---
+
+class: inverse, hide-logo
+
+### Warm up practice
+
+<p style = "margin-bottom:2cm;"></p>
+
+#### 1) Recode the `sexe` variable with `Male` and `Female` instead of `1` and `2`
+
+<p style = "margin-bottom:1.25cm;"></p>
+
+--
+
+#### 2) Filter out observations for which `annais` is `XXXX` and convert `annais` to numeric
+
+<p style = "margin-bottom:1.25cm;"></p>
+
+--
+
+#### 3) Summarise your data into the total number of births per year
+
+<p style = "margin-bottom:1.25cm;"></p>
+
+--
+
+#### 4) Plot the evolution of the number of births over time using a line geometry
+
+<p style = "margin-bottom:2.5cm;"></p>
+
+--
+
+<center><h3><i>Don't forget to load the necessary packages!</i></h3></center>
+
+`r countdown(minutes = 10, top = 0, right = 0, play_sound = F, color_border = "#DFE6EB", color_text = "#DFE6EB", color_running_background = "#DFE6EB", color_running_text = "#014D64", color_finished_background = "#014D64", color_finished_text = "#DFE6EB", start_immediately = T)`
+
+---
+
+class: inverse, hide-logo
+
+### Solution
+
+#### Load the necessary packages
+
+```{r}
+library(tidyverse) # Needed for ggplot2 and dplyr
+```
+
+--
+
+<p style = "margin-bottom:1.25cm;"></p>
+
+#### 1) Recode the `sexe` variable with `Male` and `Female` instead of `1` and `2`
+
+--
+
+```{r, eval = F}
+names %>%
+  mutate(sexe = ifelse(sexe == 1, "Male", "Female"))
+```
+
+--
+
+<p style = "margin-bottom:1.25cm;"></p>
+
+#### 2) Filter out observations for which `annais` is `XXXX` and convert `annais` to numeric
+
+--
+
+```{r, eval = F}
+names %>%
+  mutate(sexe = ifelse(sexe == 1, "Male", "Female")) %>%
+  filter(annais != "XXXX") %>%
+  mutate(annais = as.numeric(annais))
+```
+
+---
+
+class: inverse, hide-logo
+
+### Solution
+
+#### 3) Summarise your data into the total number of births per year
+
+--
+
+```{r, eval = F}
+names %>%
+  mutate(sexe = ifelse(sexe == 1, "Male", "Female")) %>%
+  filter(annais != "XXXX") %>%
+  mutate(annais = as.numeric(annais)) %>%
+  group_by(annais) %>%
+  summarise(n = sum(nombre))
+```
+
+--
+
+```{r, echo = F}
+names %>%
+  mutate(sexe = ifelse(sexe == 1, "Male", "Female")) %>%
+  filter(annais != "XXXX") %>%
+  mutate(annais = as.numeric(annais)) %>%
+  group_by(annais) %>%
+  summarise(n = sum(nombre)) %>%
+  head(8)
+```
+
+---
+
+class: inverse, hide-logo
+
+### Solution
+
+#### 4) Plot the evolution of the number of births over time using a line geometry
+
+--
+
+```{r, eval = F}
+names %>%
+  mutate(sexe = ifelse(sexe == 1, "Male", "Female")) %>%
+  filter(annais != "XXXX") %>%
+  mutate(annais = as.numeric(annais)) %>%
+  group_by(annais) %>%
+  summarise(n = sum(nombre)) %>%
+  ggplot(aes(x = annais, y = n)) + geom_line()
+```
+
+--
+
+```{r, echo = F, fig.width = 6.67, fig.height = 3, out.width = "55%"}
+names %>%
+  mutate(sexe = ifelse(sexe == 1, "Male", "Female")) %>%
+  filter(annais != "XXXX") %>%
+  mutate(annais = as.numeric(annais)) %>%
+  group_by(annais) %>%
+  summarise(n = sum(nombre)) %>%
+  ggplot(aes(x = annais, y = n)) + 
+  geom_line(color = "#dfe6eb") +
+  theme(plot.background = element_rect(color = "#014d64", fill = "#014d64"),
+        panel.background = element_rect(color = "#014d64", fill = "#014d64"),
+        panel.grid = element_blank(),
+        axis.title = element_text(color = "#dfe6eb"),
+        axis.text = element_text(color = "#dfe6eb"),
+        axis.line = element_line(color = "#dfe6eb"),
+        axis.ticks = element_line(color = "#dfe6eb"))
+```
+
+
+---
+
+<h3>Today we learn how to make reports with Quarto!</h3>
+
+--
+
+<p style = "margin-bottom:2.5cm;"></p>
+
+.pull-left[
+
+<ul style = "margin-left:1.5cm;list-style: none">
+  <li><b>1. Basic principles</b></li>
+  <ul style = "list-style: none">
+    <li>1.1. What is Quarto?</li>
+    <li>1.2. YAML header</li>
+    <li>1.3. Code chunks</li>
+    <li>1.4. Text formatting</li>
+    <li>1.5. Run and render your code</li>
+  </ul>
+</ul>
+
+<p style = "margin-bottom:1cm;"></p>
+
+<ul style = "margin-left:1.5cm;list-style: none">
+  <li><b>2. Useful features</b></li>
+  <ul style = "list-style: none">
+    <li>2.1. Inline code</li>
+    <li>2.2. Tables</li>
+    <li>2.3. Preset themes</li>
+    <li>2.4. Report parameters</li>
+  </ul>
+</ul>
+
+]
+
+.pull-right[
+
+<ul style = "margin-left:-1cm;list-style: none">
+  <li><b>3. LaTeX for equations</b></li>
+  <ul style = "list-style: none">
+    <li>3.1. What is LaTeX?</li>
+    <li>3.2. LaTeX syntax</li>
+    <li>3.3. Large equations</li>
+  </ul>
+</ul>
+ 
+<p style = "margin-bottom:1cm;"></p>
+
+<ul style = "margin-left:-1cm;list-style: none">
+  <li><b>4. Best coding practices</b></li>
+  <ul style = "list-style: none">
+    <li>4.1. Organize and name your files appropriately</li>
+    <li>4.2. Write a master script and README</li>
+    <li>4.3. Write readable code</li>
+    <li>4.4. Keep improving your skills</li>
+    <li>4.5. Track your changes</li>
+  </ul>
+</ul>
+]
+
+---
+
+<h3>Today we learn how to make reports with Quarto!</h3>
+
+<p style = "margin-bottom:2.5cm;"></p>
+
+.pull-left[
+
+<ul style = "margin-left:1.5cm;list-style: none">
+  <li><b>1. Basic principles</b></li>
+  <ul style = "list-style: none">
+    <li>1.1. What is Quarto?</li>
+    <li>1.2. YAML header</li>
+    <li>1.3. Code chunks</li>
+    <li>1.4. Text formatting</li>
+    <li>1.5. Run and render your code</li>
+  </ul>
+</ul>
+]
+
+---
+
+### 1. Basic principles
+
+#### 1.1. What is Quarto?
+
+<ul>
+  <li><b>Quarto</b> is an open-source publishing system in which you can both <b>write/run code</b> (R/Python/Julia) and <b>edit text</b></li>
+  <li> Produces <b>dynamic documents</b> that are updated automatically every time the script runs</li>
+  <li> Good for research transparency and simple documents that don't require a lot of formatting (e.g. reports)</li>
+</ul>
+
+<p style = "margin-bottom:1cm;">
+
+--
+
+<ul>
+  <li>Here are some examples of Quarto documents</li>
+  <ul>
+  <li><a href="https://www.louissirugue.com">Louis Sirugue's Website</a></li>
+  <li><a href="https://quarto.org/docs/presentations/revealjs/demo/#/title-slide">Slides</a></li>
+  <li>And many <a href="https://quarto.org/docs/gallery/">more examples!</a></li>
+  </ul>
+</ul>
+
+<p style = "margin-bottom:1cm;">
+
+--
+
+<ul>
+  <li>It is structured around <b>3 types of content</b>:</li>
+  <ul>
+  <li><b>Code chunks</b> to run and render the output</li>
+  <li><b>Editable text</b> to display</li>
+  <li><b>YAML metadata</b> for the Quarto build process</li>
+  </ul>
+</ul>
+
+<p style = "margin-bottom:1cm;">
+
+---
+
+### 1. Basic principles
+
+#### 1.1. What is Quarto?
+
+<center>
+<h3 style = "font-size:1.35em; margin-top:1.5cm;">But how is this different from R Markdown?</h3>
+</center>
+
+<p style = "margin-bottom:1.25cm;"></p>
+
+<ul>
+  <li><b>Quarto is the successor to R Markdown</b>: R Markdown code chunks can be used with little or no change!</li>
+  <li><b>Quarto is multi-language</b>: it supports R, Python, Julia, and Observable JavaScript in the same publishing system</li>
+  <li><b>Quarto offers more publishing options</b></li>
+</ul>
+
+
+---
+
+### 1. Basic principles
+
+#### 1.1. What is Quarto?
+
+<center>&#10140; Click on <b>File > New File > Quarto document</b></center>
+
+<p style = "margin-bottom:-.5cm;">
+
+--
+
+.pull-left[
+<img src = "slides_elements/figures/new_quarto.png" width = "400"/>
+]
+
+--
+
+.pull-right[
+<p style = "margin-bottom:2.5cm;">
+
+<ol>
+  <li>Fill out the information and select <b>HTML</b></li>
+  <li style = "margin-top:7cm;">Click on <b>CREATE</b></li>
+</ol>
+]
+
+---
+
+### 1. Basic principles
+
+#### 1.1. What is Quarto?
+
+ * It creates a **template** containing the **3 types of content**:
+ 
+--
+
+.left-column[
+
+
+<p style = "margin-bottom:1.25cm;">
+
+<b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;YAML header &#10140;</b>
+
+<p style = "margin-bottom:2.75cm;">
+
+
+<b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Text &#10140;</b>
+
+<p style = "margin-bottom:2.7cm;">
+
+<b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Code chunks &#10140;</b>
+]
+
+.right-column[
+<center><img src = "slides_elements/figures/template.png" width = "700"/></center>
+]
+
+---
+
+### 1. Basic principles
+
+#### 1.2. YAML header
+
+ * The **YAML header** contains general information related to the **file configuration**:
+
+<p style = "margin-bottom:-.25cm;">
+
+--
+
+<ul>
+<ul>
+<li>Title/subtitle (in quotes)</li>
+<li>Author/date (in quotes)</li>
+<li>Output type (html/pdf)</li>
+<li>Editor configuration (source/visual)</li>
+<li>...</li>
+</ul>
+</ul>
+
+--
+
+<p style = "margin-bottom:1cm;">
+
+* It should be specified at the **very beginning** of the document and surrounded by **three dashes** like this:
+
+````markdown
+---
+title: "My first Quarto document"
+subtitle: "A step-by-step introduction"
+author: "Elisa Alonso"
+date: "08/09/2026"
+format: html
+editor: source
+---
+````
+---
+
+### 1. Basic principles
+
+#### 1.3. Code chunks
+
+ * **Code chunks are blocks of R code** that can be run when working on and rendering the .qmd file
+ 
+--
+
+<p style = "margin-bottom:1.5cm;">
+
+ * You can insert a code chunk using `Ctrl + Alt + i` or by typing the **backticks chunk delimiters** as follows
+ 
+````markdown
+`r ''````{r}
+1+1
+```
+````
+
+<p style = "margin-bottom:.5cm;">
+
+--
+
+<p style = "margin-bottom:1cm;">
+
+<ul>
+  <li>When <b>rendering</b> the document, R will <b>execute</b> the code</li>
+  <ul>
+    <li>Both the <b>code</b> and the <b>output</b> will appear in the document like so:</li>
+  </ul>
+</ul>
+
+```{r}
+1+1
+```
+
+---
+
+### 1. Basic principles
+
+#### 1.3. Code chunks
+
+ * The **content** to be **displayed** from the code chunk can be specified through **chunk options** (provided inside the curly brackets `{}`)
+  * For instance, to display only the output and not the code chunk, you can set `echo` to `FALSE`
+
+--
+
+````markdown
+`r ''````{r, echo = F}
+1+1
+```
+````
+
+--
+
+<p style = "margin-bottom:1cm;">
+
+ * And the output will only be
+ 
+```{r, echo = F}
+1+1
+```
+
+--
+
+<p style = "margin-bottom:1cm;">
+
+ * Instead of 
+ 
+```{r}
+1+1
+```
+
+---
+
+### 1. Basic principles
+
+#### 1.3. Code chunks
+
+<center><h4> Chunk options to know </h4></center>
+
+```{r, echo = F}
+kable(tibble(Option = c("eval", "echo", "warning", "error", "message", 
+                        "results", "fig.width", "fig.height"),
+             Default = c("TRUE", "TRUE", "TRUE", "TRUE", 
+                         "TRUE", "'markup'", "7", "7"),
+             Effect = c("Whether to evaluate the code and include its results", 
+             "Whether to display code along with its results", 
+             "Whether to display warnings", 
+             "Whether to display errors", 
+             "Whether to display messages", 
+             "'hide' to hide the output", 
+             "Width in inches for plots created in chunk", 
+             "Height in inches for plots created in chunk")), caption = "", align = "lcl") %>%
+  row_spec(0, align = "c")
+```
+
+---
+
+### 1. Basic principles
+
+#### 1.3. Code chunks
+
+ * For an option to apply to the <b>whole document</b>, set it up in the YAML header:
+ 
+````markdown
+---
+title: "My first Quarto document"
+format: html
+execute:
+  echo: false
+  warning: false
+---
+````
+
+--
+
+<p style = "margin-bottom:1cm;">
+
+ * For an option to apply to a <b>specific chunk</b>, two possibilities:
+ 
+.pull-left[
+````markdown
+`r ''````{r, echo = F, warning = F}
+1+1
+```
+````
+]
+.pull-right[
+````markdown
+`r ''````{r}
+#| echo: false
+#| warning: false
+1+1
+```
+````
+]
+
+---
+
+### 1. Basic principles
+
+#### 1.4. Text formatting
+
+<ul>
+  <li>Quarto is not only about rendering code but also about <b>writing</b> actual <b>text</b></li>
+  <ul>
+    <li>You can write <b>paragraphs</b> as you would normally do on a typical report</li>
+    <li>And Quarto provides convenient ways to <b>format</b> your text</li>
+  </ul>
+</ul>
+
+<p style = "margin-bottom:1cm;">
+
+--
+
+<ul>
+  <li>Basic formatting includes:</li>
+  <ul>
+    <li>Italics</li>
+    <li>Bold</li>
+    <li>Hyperlinks</li>
+    <li>Headers</li>
+    <li>Block quotes</li>
+    <li>Un/ordered lists</li>
+    <li>...</li>
+  </ul>
+</ul>
+
+<p style = "margin-bottom:1cm;">
+
+--
+
+<ul>
+  <li>Unlike most text editing software, in <i>source</i> Quarto <b>text formatting</b> isn't about clicking on dedicated buttons</li>
+  <ul>
+    <li>It <b>relies on symbols</b> that should be written along with the text</li>
+  </ul>
+</ul>
+
+---
+
+### 1. Basic principles
+
+#### 1.4. Text formatting
+
+<p style = "margin-bottom:-1cm;">
+
+.pull-left[
+<center> <h4> Syntax </h4> </center>
+
+`Plain text  ⠀`  
+`End a line with two spaces for line break`
+
+`*italics*`
+
+`**bold**`
+
+`# Header 1`
+
+`## Header 2`
+
+...
+
+
+`###### Header 6`
+
+`[link](https://www.rstudio.com)`
+
+]
+
+.pull-right[
+<center> <h4> Output </h4> </center>
+
+Plain text  
+End a line with two spaces for line break
+
+*italics*
+
+**bold**
+
+<p style = "margin-bottom:-1cm;">
+
+# Header 1
+
+<p style = "margin-bottom:-1cm;">
+
+## Header 2
+
+<p style = "margin-bottom:-1cm;">
+
+...
+
+<p style = "margin-bottom:-.5cm;">
+
+###### Header 6
+
+<p style = "margin-bottom:-.5cm;">
+
+[link](https://www.rstudio.com)
+
+]
+
+---
+
+### 1. Basic principles
+
+#### 1.4. Text formatting
+
+<p style = "margin-bottom:-1cm;">
+
+.pull-left[
+<center> <h4> Syntax </h4> </center>
+
+`> block quote`
+
+Horizontal rule:
+
+`***`
+
+`* unordered list`  
+`* item 2`  
+&nbsp;&nbsp;&nbsp;&nbsp;`+ sub-item 1`  
+&nbsp;&nbsp;&nbsp;&nbsp;`+ sub-item 2`  
+
+
+`1. ordered list`  
+`2. item 2`  
+&nbsp;&nbsp;&nbsp;&nbsp;`+ sub-item 1`  
+&nbsp;&nbsp;&nbsp;&nbsp;`+ sub-item 2`  
+
+]
+
+.pull-right[
+<center> <h4> Output </h4> </center>
+
+> block quote
+
+Horizontal rule:
+
+<p style = "margin-bottom:.75cm;">
+
+***
+
+<p style = "margin-bottom:.75cm;">
+
+* unordered list
+* item 2
+ + sub-item 1
+ + sub-item 2
+ 
+1. ordered list
+2. item 2
+ + sub-item 1
+ + sub-item 2
+ 
+]
+
+---
+
+### 1. Basic principles
+
+#### 1.5. Run and render your code
+
+<ul>
+  <li>To <b>execute</b> the content of a <b>code</b> chunk in Quarto</li>
+  <ul>
+    <li>Click on the <b>green play button</b> at the top right of the chunk <img src = "slides_elements/figures/current_chunk.png" width = "20"/></li>
+  </ul>
+</ul>
+ 
+--
+
+.pull-left[
+
+  <ul>
+    <li>You can also:</li>
+    <ul>
+      <li><b>Run all chunks above</b> the current chunk <img src = "slides_elements/figures/all_chunks_above.png" width = "20"/></li>
+      <li><b>Run all chunks</b> from the Run drop down menu at the top right (or Ctrl+Alt+R)</li>
+    </ul>
+  </ul>
+  
+  <center><img src = "slides_elements/figures/run_all.png" width = "185"/></center>
+  
+]
+
+--
+
+.pull-left[
+
+  <ul>
+    <li>To choose where the <b>output</b> must be <b>displayed</b>, click on the <i>"Options"</i> button</li>
+    <ul>
+      <li><b>Chunk output inline</b> (below the chunk)</li>
+      <li><b>Chunk output in console</b></li>
+    </ul>                             
+  </ul>
+  
+  <center><img src = "slides_elements/figures/inline.png" width = "150"/></center>
+  
+]
+  
+---
+
+### 1. Basic principles
+
+#### 1.5. Run and render your code
+
+ * To **render** a Quarto file, click on the **render button** <img src = "slides_elements/figures/render.png" width = "50"/> (`ctrl + shift + k`)
+ 
+--
+
+<center><img src = "slides_elements/figures/comparison_1.png" width = "1000"/></center>
+
+---
+
+<h3>Overview</h3>
+
+<p style = "margin-bottom:2.5cm;"></p>
+
+.pull-left[
+
+<ul style = "margin-left:1.5cm;list-style: none">
+  <li><b>1. Basic principles &#10004;</b></li>
+  <ul style = "list-style: none">
+    <li>1.1. What is Quarto?</li>
+    <li>1.2. YAML header</li>
+    <li>1.3. Code chunks</li>
+    <li>1.4. Text formatting</li>
+    <li>1.5. Run and render your code</li>
+  </ul>
+</ul>
+
+<p style = "margin-bottom:1cm;"></p>
+
+<ul style = "margin-left:1.5cm;list-style: none">
+  <li><b>2. Useful features</b></li>
+  <ul style = "list-style: none">
+    <li>2.1. Inline code</li>
+    <li>2.2. Tables</li>
+    <li>2.3. Preset themes</li>
+    <li>2.4. Report parameters</li>
+  </ul>
+</ul>
+
+]
+
+.pull-right[
+
+<ul style = "margin-left:-1cm;list-style: none">
+  <li><b>3. LaTeX for equations</b></li>
+  <ul style = "list-style: none">
+    <li>3.1. What is LaTeX?</li>
+    <li>3.2. LaTeX syntax</li>
+    <li>3.3. Large equations</li>
+  </ul>
+</ul>
+ 
+<p style = "margin-bottom:1cm;"></p>
+
+<ul style = "margin-left:-1cm;list-style: none">
+  <li><b>4. Best coding practices</b></li>
+  <ul style = "list-style: none">
+    <li>4.1. Organize and name your files appropriately</li>
+    <li>4.2. Write a master script and README</li>
+    <li>4.3. Write readable code</li>
+    <li>4.4. Keep improving your skills</li>
+    <li>4.5. Track your changes</li>
+  </ul>
+</ul>
+]
+
+---
+
+<h3>Overview</h3>
+
+<p style = "margin-bottom:2.5cm;"></p>
+
+.pull-left[
+
+<ul style = "margin-left:1.5cm;list-style: none">
+  <li><b>1. Basic principles &#10004;</b></li>
+  <ul style = "list-style: none">
+    <li>1.1. What is Quarto?</li>
+    <li>1.2. YAML header</li>
+    <li>1.3. Code chunks</li>
+    <li>1.4. Text formatting</li>
+    <li>1.5. Run and render your code</li>
+  </ul>
+</ul>
+
+<p style = "margin-bottom:1cm;"></p>
+
+<ul style = "margin-left:1.5cm;list-style: none">
+  <li><b>2. Useful features</b></li>
+  <ul style = "list-style: none">
+    <li>2.1. Inline code</li>
+    <li>2.2. Tables</li>
+    <li>2.3. Preset themes</li>
+    <li>2.4. Report parameters</li>
+  </ul>
+</ul>
+
+]
+
+---
+
+### 2. Useful features
+
+#### 2.1. Inline code
+
+ * A big advantage of Quarto is that you can <b>automate</b> your <b>reports</b>
+
+--
+
+<p style = "margin-bottom:1cm;">
+
+<center><h4>Why is it useful?</h4></center>
+
+<p style = "margin-bottom:1cm;">
+
+<ul>
+  <li>You might figure out quite late in the process that you need to <b>make a change</b> at the beginning of the analysis</li>
+  <ul>
+    <li>A change that potentially <b>impacts everything</b> that comes after in the report</li>
+  </ul>
+</ul>
+
+<p style = "margin-bottom:1cm;">
+
+--
+
+<ul>
+  <li>Imagine that you forgot to filter out an irrelevant group of observations at the beginning</li>
+  <ul>
+    <li>If you simply filter your data at the beginning in a code chunk</li>
+    <li>All your tables and figures will <b>update automatically</b></li>
+  </ul>
+</ul>
+
+--
+
+<p style = "margin-bottom:1cm;">
+
+<ul>
+  <li>But what if you wrote some of your results <b>within paragraphs?</b></li>
+  <ul>
+    <li>In a usual text formatting software you would have to update everything manually</li>
+    <li>But here you can also make it <b>update automatically!</b></li>
+  </ul>
+</ul>
+
+---
+
+### 2. Useful features
+
+#### 2.1. Inline code
+ 
+ * Consider the following report :
+
+<center><img src = "slides_elements/figures/report_example_1.png" width = "1100"/></center>
+
+---
+
+### 2. Useful features
+
+#### 2.1. Inline code
+
+ * Imagine that there is a problem with the data and that you must use an updated version
+
+<center><img src = "slides_elements/figures/report_example_2.png" width = "1100"/></center>
+
+---
+
+### 2. Useful features
+
+#### 2.1. Inline code
+
+<ul>
+  <li>All the results were updated automatically but not the text</li>
+</ul>
+
+<p style = "margin-bottom:-.5cm;">
+
+--
+
+<ul>
+  <ul>
+    <li>That's where <b>inline code</b> comes in!</li>
+  </ul>
+</ul>
+
+--
+
+<p style = "margin-bottom:.75cm;">
+ 
+&#10140; **Inline code** allows to include the output of some **R code within text areas** of your report
+
+<p style = "margin-bottom:.75cm;">
+
+--
+
+ * R code outside code chunks should be included between backticks:
+  * Surrounding code with **backticks** in a text area will **change** the **format** to that of the code chunk
+  * **Adding** the **`r`** letter right after the first backtick will **show** the **output** of the code instead of the code
+
+
+--
+
+.pull-left[
+<center> <h4> Syntax </h4> </center>
+
+```{r, eval=F}
+`paste("a", "b", sep = "-")`
+```
+
+```{r, eval=F}
+`r paste("a", "b", sep = "-")`
+```
+
+]
+
+.pull-right[
+<center> <h4> Output </h4> </center>
+
+`paste("a", "b", sep = "-")`
+
+<p style = "margin-bottom:1cm;">
+
+`r paste("a", "b", sep = "-")`
+ 
+]
+
+
+---
+
+### 2. Useful features
+
+#### 2.1. Inline code
+
+ * With inline code, **paragraphs** also do **update automatically**:
+
+<center><img src = "slides_elements/figures/report_example_3.png" width = "1100"/></center>
+
+
+---
+
+### 2. Useful features
+
+#### 2.2. Tables
+
+ * Displaying a table as a raw output can be unpleasant to read
+ 
+--
+
+```{r}
+head(mtcars)
+```
+
+--
+
+<p style = "margin-bottom:1.25cm;">
+
+ * The `kable()` function from the `knitr` package allows to display tables in a nice way
+ 
+```{r, eval = F}
+library("knitr")
+```
+
+---
+
+### 2. Useful features
+
+#### 2.2. Tables
+
+ * You just need to put the table you want to display inside the `kable()` function
+
+```{r, eval = F}
+kable(head(mtcars), caption = "First rows of the dataset")
+```
+
+--
+
+```{r, echo = F}
+kable(head(mtcars), caption = "First rows of the dataset")
+```
+
+---
+
+### 2. Useful features
+
+#### 2.2. Tables
+
+ * For **big tables** in HTML output, one solution is the `datatable()` function from the `DT` package
+ 
+<p style = "margin-bottom:1cm;">
+
+--
+  
+ * As with `kable()`, you just need to put the table you want to display inside the `datatable()` function
+ 
+```{r, eval = FALSE}
+library("DT")
+datatable(mtcars)
+```
+
+--
+
+<p style = "margin-bottom:1cm;">
+
+<ul>
+  <li>The output will be an <b>interactive table</b> which allows to:</li>
+  <ul>
+    <li>Navigate in the table by displaying a limited number of rows at a time</li>
+    <li>Choose the number of rows to display</li>
+    <li>Search for a given element in the table</li>
+  </ul>
+</ul>
+
+<p style = "margin-bottom:1cm;">
+
+--
+
+ * You can select the default number of rows to display as follows
+
+```{r, eval = F}
+datatable(mtcars, options = list(pageLength = 5))
+```
+
+---
+
+### 2. Useful features
+
+#### 2.2. Tables
+
+```{r, echo = F}
+library("DT")
+datatable(mtcars, options = list(pageLength = 5))
+```
+
+---
+
+### 2. Useful features
+
+#### 2.3. Preset themes
+
+<ul>
+  <li>The <b>default theme</b> of Quarto might seem <b>a bit dull</b></li>
+  <ul>
+    <li>The look of your reports can easily be <b>enhanced</b> using a variety of <b>preset</b> themes</li>
+    <li>The preset theme to use should be specified in the <b>YAML header</b></li>
+    <li>Add a theme argument to the html_document format specified as output</li>
+  </ul>
+</ul>
+
+--
+
+<p style = "margin-bottom:1cm;">
+ 
+````markdown
+---
+title: "My first Quarto document"
+subtitle: "A step-by-step introduction"
+author: "Elisa Alonso"
+date: "08/09/2026"
+format: html
+editor: source
+theme: "cosmo"
+---
+````
+
+<p style = "margin-bottom:1cm;">
+
+--
+
+<ul>
+  <li>See the <a href="https://quarto.org/docs/dashboards/theming.html">Quarto theme gallery</a></li>
+</ul>
+
+
+---
+
+
+class: inverse, hide-logo
+
+### Practice
+
+.pull-left[
+
+<p style = "margin-bottom:2cm;"></p>
+<center><b><i>Reproduce the following html using Quarto</i></b></center>
+
+<p style = "margin-bottom:.25cm;"></p>
+<center><button onclick="copyText()">Copy raw output</button></center>
+<script>
+  function copyText() {
+    navigator.clipboard.writeText
+      ("Report on the first name LOUIS \nYour name \nOctober 2, 2023 \n\n1. Setup \n\nThe packages needed in a qmd must always be loaded in a code chunk at the beginning of the file. \n\nlibrary(dplyr) \nlibrary(ggplot2) \n\nHowever, the command install.packages() must not be written in a Quarto document. \nIt should be run only once in the console. \n\n2. Data cleaning \n\nnames <- read.csv('fichier_prenoms.csv', encoding = 'UTF-8', sep = ';') %>% \nmutate(Gender = ifelse(sexe == 1, 'Male', 'Female')) %>% \nfilter(annais != 'XXXX') %>% \nmutate(Year = as.numeric(annais)) \n\n3. Evolution of the first name LOUIS over time \n\n3715 children were born under the name LOUIS in 2021. This statistic is written in inline code such that it updates automatically.");
+  }
+</script>
+
+<p style = "margin-bottom:2cm;"></p>
+<center><h3><i>You've got 15 minutes!</i></h3></center>
+
+`r countdown(minutes = 15, bottom = 1, left = 0, style = "margin-left:5.65cm;", play_sound = F, color_border = "#DFE6EB", color_text = "#DFE6EB", color_running_background = "#DFE6EB", color_running_text = "#014D64", color_finished_background = "#014D64", color_finished_text = "#DFE6EB", start_immediately = T)`
+
+]
+
+.pull-right[
+<p style = "margin-bottom:-4cm;"></p>
+<center><img src = "slides_elements/figures/louis.png" height = "677" width = "auto"/></center>
+]
+
+---
+
+class: inverse, hide-logo
+
+### Solution
+
+<p style = "margin-bottom:1.5cm;"></p>
+
+````markdown
+---
+title: "Report on the first name LOUIS"
+author: "Your name"
+date: "10-02-2023"
+format: html
+editor: source
+theme: "cosmo"
+---
+
+### 1. Setup 
+  
+The packages needed in a qmd must *always* be loaded in a code chunk at the beginning of the file. 
+
+`r ''````{r, message = F, warning = F}
+library(dplyr)
+library(ggplot2)
+```
+
+However, the command `install.packages()` must **not** be written in a Quarto document.  
+It should be run only once in the console.
+````
+
+---
+
+class: inverse, hide-logo
+
+### Solution
+
+<p style = "margin-bottom:-.5cm;"></p>
+
+````markdown
+### 2) Data cleaning
+
+`r ''````{r}
+names <- read.csv('fichier_prenoms.csv', encoding = 'UTF-8', sep = ';') %>% 
+  mutate(Gender = ifelse(sexe == 1, 'Male', 'Female')) %>% 
+  filter(annais != 'XXXX') %>% 
+  mutate(Year = as.numeric(annais)) 
+```
+
+### 3) Evolution of the first name LOUIS over time
+
+`r ''````{r, echo = F, message = F, fig.height = 3, fig.width = 8}
+names %>% filter(preusuel == "LOUIS") %>%
+  group_by(Year, Gender) %>%
+  summarise(Total = sum(nombre)) %>% ungroup() %>%
+  ggplot(aes(x = Year, y = Total, color = Gender)) + geom_line()
+```
+
+`r ''````{r, echo = F}
+n_louis <- names %>% filter(Year == 2021 & preusuel == "LOUIS") %>% summarise(n = sum(nombre))
+```
+
+`r "\u0060r n_louis$n\u0060"` children were born under the name LOUIS in 2021. This statistic is written in  
+inline code such that it updates automatically.
+````
+---
+
+### 2. Useful features
+
+#### 2.4. Report parameters
+
+<ul>
+  <li>It may sometimes be useful to produce <b>separate html reports for differents groups</b> in your data</li>
+  <ul>
+    <li>Country/state-specific reports</li>
+    <li>Here, a different report for each first name</li>
+  </ul>
+</ul>
+
+<p style = "margin-bottom:1cm;"></p>
+
+--
+
+<ul>
+  <li><b>YAML parameters</b> are very useful for that</li>
+  <ul>
+    <li>They are accessible <b>like any object</b> in your environment</li>
+    <li>They must be specified as follows</li>
+  </ul>
+</ul>
+
+<p style = "margin-bottom:1cm;"></p>
+
+--
+
+```{r, eval = F}
+title: "Report on the first name `r params$name`"
+author: "Your name"
+date: "10-02-2023"
+format: html
+editor: source
+theme: "cosmo"
+params:
+  name: "LOUIS"
+```
+
+<p style = "margin-bottom:1cm;"></p>
+
+---
+
+### 2. Useful features
+
+#### 2.4. Report parameters
+
+ * You simply have to call that object in your code chunks or inline code when needed
+ 
+--
+
+<p style = "margin-bottom:1cm;"></p>
+
+````markdown
+*### 3) Evolution of the first name `r "\u0060r params$name\u0060"` over time
+
+`r ''````{r, echo = F, message = F, fig.height = 3}
+* names %>% filter(preusuel == params$name) %>%
+  group_by(Year, Gender) %>%
+  summarise(Total = sum(nombre)) %>% ungroup() %>%
+  ggplot(aes(x = Year, y = Total, color = Gender)) + geom_line()
+```
+
+
+`r ''````{r, echo = F}
+* n_louis <- names %>% filter(Year == 2021 & preusuel == params$name) %>% summarise(n = sum(nombre))
+```
+
+*`r "\u0060r n_louis$n\u0060"` children were born under the name `r "\u0060r params$name\u0060"` in 2021. This statistic is  
+written in inline code such that it updates automatically.
+````
+--
+
+<center><i><b>&#10140; Let's render our .qmd with different values of that parameter!</b></i></center>
+
+---
+class: hide-logo
+.pull-left[
+<p style = "margin-bottom:-.9cm;"></p>
+<center><img src = "slides_elements/figures/louis.png" height = "677" width = "auto"/></center>
+]
+--
+.pull-right[
+<p style = "margin-bottom:-.9cm;"></p>
+<center><img src = "slides_elements/figures/didier.png" height = "677" width = "auto"/></center>
+]
+
+---
+class: hide-logo
+.pull-left[
+<p style = "margin-bottom:-.9cm;"></p>
+<center><img src = "slides_elements/figures/pauline.png" height = "677" width = "auto"/></center>
+]
+--
+.pull-right[
+<p style = "margin-bottom:-.9cm;"></p>
+<center><img src = "slides_elements/figures/camille.png" height = "677" width = "auto"/></center>
+]
+
+---
+
+### 2. Useful features
+
+#### 2.4. Report parameters
+
+<ul>
+  <li>But by <b>default</b> the <b>name of the .html</b> output will be the name of your .qmd</li>
+  <ul>
+    <li>So if you <b>render report.qmd</b> for the first name Louis it will save the report under <b>report.html</b></li>
+    <li>And if you <b>render it a second time</b> for the first name Didier it will <b>override</b> the first .html</li>
+  </ul>
+</ul>
+
+<p style = "margin-bottom:1.25cm;"></p>
+
+--
+
+<ul>
+  <li>The <b>solution</b> is to <b>render</b> your .qmd <b>externally</b></li>
+  <ul>
+    <li>You can do that with the <b>render()</b> function of the rmarkdown package</li>
+    <li>Save your .qmd and <b>open a new .R script</b> to try it out</li>
+  </ul>
+</ul>
+
+<p style = "margin-bottom:1.25cm;"></p>
+
+--
+
+```{r, eval = F}
+library(rmarkdown)
+
+render(
+  input = "C:/User/Documents/prenom.qmd",                   # Specify the input .qmd
+  output_file = "C:/User/Documents/LOUIS.html",             # Specify the output file
+  params = list(name = "LOUIS")                             # Specify the YAML parameter(s)
+)                                          
+```
+
+---
+
+### 2. Useful features
+
+#### 2.4. Report parameters
+
+<ul>
+  <li>To <b>avoid copy-pasting</b> this command for each name we want a report on, we must <b>use a loop</b></li>
+</ul>
+
+--
+
+<ul style = "margin-top:-.53cm">
+  <ol>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+  </ol>
+</ul>
+
+<p style = "margin-bottom:1.5cm;"></p>
+
+```{r, eval = F}
+for (name in c("LOUIS")) {
+
+  
+  
+  
+  
+  
+  
+  
+  
+}
+```
+
+---
+
+### 2. Useful features
+
+#### 2.4. Report parameters
+
+<ul>
+  <li>To <b>avoid copy-pasting</b> this command for each name we want a report on, we must <b>use a loop</b></li>
+  <ol>
+    <li>First we should name the object that will successively take the value of each first name</li>
+    <li></li>
+    <li></li>
+    <li></li>
+  </ol>
+</ul>
+
+<p style = "margin-bottom:1.5cm;"></p>
+
+```{r, eval = F}
+for (i in c("LOUIS")) {
+
+  
+  
+  
+  
+  
+  
+  
+  
+}
+```
+
+---
+
+### 2. Useful features
+
+#### 2.4. Report parameters
+
+<ul>
+  <li>To <b>avoid copy-pasting</b> this command for each name we want a report on, we must <b>use a loop</b></li>
+  <ol>
+    <li>First we should name the object that will successively take the value of each first name</li>
+    <li>Then indicate which values this object must successively take</li>
+    <li></li>
+    <li></li>
+  </ol>
+</ul>
+
+<p style = "margin-bottom:1.5cm;"></p>
+
+```{r, eval = F}
+for (i in c("LOUIS", "DIDER", "PAULINE", "CAMILLE")) {
+
+  
+  
+  
+  
+  
+  
+  
+  
+}
+```
+
+---
+
+### 2. Useful features
+
+#### 2.4. Report parameters
+
+<ul>
+  <li>To <b>avoid copy-pasting</b> this command for each name we want a report on, we must <b>use a loop</b></li>
+  <ol>
+    <li>First we should name the object that will successively take the value of each first name</li>
+    <li>Then indicate which values this object must successively take</li>
+    <li>Then indicate what to do at each iteration</li>
+    <li></li>
+  </ol>
+</ul>
+
+<p style = "margin-bottom:1.5cm;"></p>
+
+```{r, eval = F}
+for (i in c("LOUIS", "DIDER", "PAULINE", "CAMILLE")) {
+
+  render(
+    input = "C:/User/Documents/prenom.qmd",  
+    output_file = "C:/User/Documents/LOUIS.html",
+    params = list(name = "LOUIS")
+  )  
+
+}
+```
+
+---
+
+### 2. Useful features
+
+#### 2.4. Report parameters
+
+<ul>
+  <li>To <b>avoid copy-pasting</b> this command for each name we want a report on, we must <b>use a loop</b></li>
+  <ol>
+    <li>First we should name the object that will successively take the value of each first name</li>
+    <li>Then indicate which values this object must successively take</li>
+    <li>Then indicate what to do at each iteration</li>
+    <li>And this should depend on the object that successively take each value</li>
+  </ol>
+</ul>
+
+<p style = "margin-bottom:1.5cm;"></p>
+
+```{r, eval = F}
+for (i in c("LOUIS", "DIDER", "PAULINE", "CAMILLE")) {
+
+  render(
+    input = "C:/User/Documents/prenom.qmd",  
+    output_file = paste0("C:/User/Documents/", i, ".html"),
+    params = list(name = i)
+  )  
+
+}
+```
+
+---
+
+<h3>Overview</h3>
+
+<p style = "margin-bottom:2.5cm;"></p>
+
+.pull-left[
+
+<ul style = "margin-left:1.5cm;list-style: none">
+  <li><b>1. Basic principles &#10004;</b></li>
+  <ul style = "list-style: none">
+    <li>1.1. What is Quarto?</li>
+    <li>1.2. YAML header</li>
+    <li>1.3. Code chunks</li>
+    <li>1.4. Text formatting</li>
+    <li>1.5. Run and render your code</li>
+  </ul>
+</ul>
+
+<p style = "margin-bottom:1cm;"></p>
+
+<ul style = "margin-left:1.5cm;list-style: none">
+  <li><b>2. Useful features &#10004;</b></li>
+  <ul style = "list-style: none">
+    <li>2.1. Inline code</li>
+    <li>2.2. Tables</li>
+    <li>2.3. Preset themes</li>
+    <li>2.4. Report parameters</li>
+  </ul>
+</ul>
+
+]
+
+.pull-right[
+
+<ul style = "margin-left:-1cm;list-style: none">
+  <li><b>3. LaTeX for equations</b></li>
+  <ul style = "list-style: none">
+    <li>3.1. What is LaTeX?</li>
+    <li>3.2. LaTeX syntax</li>
+    <li>3.3. Large equations</li>
+  </ul>
+</ul>
+ 
+<p style = "margin-bottom:1cm;"></p>
+
+<ul style = "margin-left:-1cm;list-style: none">
+  <li><b>4. Best coding practices</b></li>
+  <ul style = "list-style: none">
+    <li>4.1. Organize and name your files appropriately</li>
+    <li>4.2. Write a master script and README</li>
+    <li>4.3. Write readable code</li>
+    <li>4.4. Keep improving your skills</li>
+    <li>4.5. Track your changes</li>
+  </ul>
+</ul>
+]
+---
+
+<h3>Overview</h3>
+
+<p style = "margin-bottom:2.5cm;"></p>
+
+.pull-left[
+
+<ul style = "margin-left:1.5cm;list-style: none">
+  <li><b>1. Basic principles &#10004;</b></li>
+  <ul style = "list-style: none">
+    <li>1.1. What is Quarto?</li>
+    <li>1.2. YAML header</li>
+    <li>1.3. Code chunks</li>
+    <li>1.4. Text formatting</li>
+    <li>1.5. Run and render your code</li>
+  </ul>
+</ul>
+
+<p style = "margin-bottom:1cm;"></p>
+
+<ul style = "margin-left:1.5cm;list-style: none">
+  <li><b>2. Useful features &#10004;</b></li>
+  <ul style = "list-style: none">
+    <li>2.1. Inline code</li>
+    <li>2.2. Tables</li>
+    <li>2.3. Preset themes</li>
+    <li>2.4. Report parameters</li>
+  </ul>
+</ul>
+
+]
+
+.pull-right[
+
+<ul style = "margin-left:-1cm;list-style: none">
+  <li><b>3. LaTeX for equations</b></li>
+  <ul style = "list-style: none">
+    <li>3.1. What is LaTeX?</li>
+    <li>3.2. LaTeX syntax</li>
+    <li>3.3. Large equations</li>
+  </ul>
+</ul>
+]
+---
+
+### 3. LaTeX for equations
+
+#### 3.1. What is LaTeX?
+
+ * $\LaTeX$ is a document preparation system
+
+<p style = "margin-bottom:.95cm;">
+
+--
+
+<ul>
+  <li>But LaTeX is not a <i>"what you see is what you get"</i> system</li>
+  <ul>
+    <li>In Microsoft Word or Google doc, you work directly on the "output document"</li>
+    <li><b>LaTeX</b> works more like Quarto: <b>Edit</b> your text <b>in a script using commands and symbols</b></li> 
+  </ul>
+</ul>
+
+<p style = "margin-left:11.25cm; margin-top:-.55cm;"><b>Compile</b> the script to <b>get the output</b></p>
+
+
+
+<p style = "margin-bottom:.95cm;">
+
+--
+
+<ul>
+  <li>LaTeX is the <b>preferred</b> typesetting system for most <b>academic</b> fields mainly because:</li>
+  <ul>
+    <li>Many things can be <b>automated</b> in LaTeX</li>
+    <li>It has a good way to typeset <b>mathematical formulas</b></li>
+  </ul>
+</ul>
+
+<p style = "margin-bottom:.95cm;">
+
+--
+
+ * We're not gonna learn how to make $\LaTeX$ documents ([do it in 30mn](https://www.overleaf.com/learn/latex/Learn_LaTeX_in_30_minutes)), but just how to make equations
+ 
+$$\overline{x}=\frac{1}{N}\sum_{i=1}^N x_i$$
+
+---
+
+### 3. LaTeX for equations
+
+#### 3.2. LaTeX syntax
+
+ * To include a **LaTeX equation** in Quarto, you simply have to surround it with the **`$` sign**:
+ 
+--
+ 
+ <p style = "margin-bottom:-.5cm;">
+ 
+.pull-left[
+<center> <h4> Syntax </h4> </center>
+
+`1 + 1`
+
+`$1 + 1$`
+
+]
+
+.pull-right[
+<h4> Output </h4>
+
+1 + 1
+
+$1 + 1$
+
+]
+
+--
+
+<p style = "margin-bottom:1.25cm;">
+
+ * LaTeX is a convenient way to display **mathematical symbols** and to **structure equations**
+  * The **syntax** is mainly based on **backslashes \ and braces {}**
+
+<p style = "margin-bottom:1cm;">
+
+--
+
+<center><h4 style = "margin-bottom:.25cm;"> Example: </h4></center> 
+<p style = "margin-bottom:.25cm;">
+&nbsp;&nbsp;&nbsp;&nbsp;&#10140; What you type in the text area: `$x \neq \frac{\alpha \times \beta}{2}$`  
+</p>
+&nbsp;&nbsp;&nbsp;&nbsp;&#10140; What is rendered as an output: $x \neq \frac{\alpha \times \beta}{2}$
+
+---
+
+### 3. LaTeX for equations
+
+#### 3.2. LaTeX syntax
+
+&nbsp;&nbsp;&nbsp;&nbsp;&#10140; **Common greek letters** 
+
+<p style = "margin-bottom:-.25cm;">
+ 
+.pull-left[
+<center> <h4> Syntax </h4> </center>
+
+`$\alpha$`  
+`$\beta$`  
+`$\gamma$` `$\Gamma$`  
+`$\delta$` `$\Delta$`  
+`$\epsilon$` `$\varepsilon$`  
+`$\lambda` `\Lambda$`  
+`$\phi$` `$\Phi$`  
+`$\pi$` `$\Pi$`  
+`$\psi$` `$\Psi$`  
+`$\theta$` `$\Theta$`  
+`$\sigma$` `$\Sigma$`  
+...
+
+]
+
+.pull-right[
+<center> <h4> Output </h4> </center>
+
+$\alpha$  
+$\beta$  
+$\gamma$ $\Gamma$  
+$\delta$ $\Delta$  
+$\epsilon$ $\varepsilon$  
+$\lambda$ $\Lambda$  
+$\phi$ $\Phi$  
+$\pi$ $\Pi$  
+$\psi$ $\Psi$  
+$\theta$ $\Theta$  
+$\sigma$ $\Sigma$  
+...
+
+]
+
+---
+
+### 3. LaTeX for equations
+
+#### 3.2. LaTeX syntax
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;&#10140; **Common symbols** 
+ 
+.pull-left[
+<center> <h4> Syntax </h4> </center>
+
+`$+ - \pm$`  
+`$\times \div$`  
+`$= \neq \equiv \approx$`  
+`$> < \geq \leq \lessgt$`  
+`$\rightarrow \leftarrow \Leftrightarrow$`  
+`$\in \notin$`  
+`$\forall \exists \nexists$`  
+`$\infty$`  
+`$\sum \prod \int$`  
+...
+
+]
+
+.pull-right[
+<center> <h4> Output </h4> </center>
+
+$+$ $-$ $\pm$  
+$\times$ $\div$  
+$=$ $\neq$ $\equiv$ $\approx$  
+$>$ $<$ $\geq$ $\leq$ $\lessgtr$  
+$\rightarrow$ $\leftarrow$ $\Leftrightarrow$  
+$\in$ $\notin$  
+$\forall$ $\exists$ $\nexists$  
+$\infty$  
+$\sum$ $\prod$ $\int$  
+...
+
+]
+
+---
+
+### 3. LaTeX for equations
+
+#### 3.2. LaTeX syntax
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;&#10140; **Exponents and accentuation**
+ 
+.pull-left[
+<center> <h4> Syntax </h4> </center>
+
+`$x^a$`  
+`$x_b$`  
+`$x^a_b$`  
+`$x^{a, i}_{b, j}$`  
+<p style = "margin-bottom:.25cm;">  
+`$\hat{\beta} \widehat{\beta_{i,j}}$`  
+`$\tilde{\beta} \widetilde{\beta_{i,j}}$`  
+`$\overline{x} \underline{x}$`  
+`$\overrightarrow{x} \underleftarrow{x}$`  
+...
+
+]
+
+.pull-right[
+<center> <h4> Output </h4> </center>
+
+$x^a$  
+$x_b$  
+$x^a_b$  
+$x^{a, i}_{b, j}$  
+$\hat{\beta}$ $\widehat{\beta_{i,j}}$  
+$\tilde{\beta}$ $\widetilde{\beta_{i,j}}$  
+$\overline{x}$ $\underline{x}$  
+$\overrightarrow{x}$ $\underleftarrow{x}$  
+...
+
+]
+
+---
+
+### 3. LaTeX for equations
+
+#### 3.2. LaTeX syntax
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;&#10140; **Math constructs and variable sized symbols**
+ 
+.pull-left[
+<center> <h4> Syntax </h4> </center>
+
+`$\frac{a \times b}{c}$`  
+`$\sqrt{x} \sqrt[n]{x}$`  
+`$\sum_{i = 1}^N$`  
+`$\prod_{i = 1}^N$`  
+`$\int_a^b$`  
+<p style = "margin-bottom:.5cm;">  
+`$\overline{x}=\frac{1}{N}\sum_{i=1}^N x_i$`  
+...
+
+]
+
+.pull-right[
+<center> <h4> Output </h4> </center>
+
+$\frac{a \times b}{c}$  
+$\sqrt{x}$ $\sqrt[n]{x}$  
+$\sum_{i = 1}^N$  
+$\prod_{i = 1}^N$  
+$\int_a^b$  
+
+$\overline{x}=\frac{1}{N}\sum_{i=1}^N x_i$  
+...
+
+]
+
+---
+
+### 3. LaTeX for equations
+
+#### 3.3. Large equations
+
+<ul>
+  <li>Surrounding a LaTeX input with <b>one $</b> on each side is suitable for <b>inline equation</b></li>
+</ul>
+
+--
+
+<p style = "margin-bottom:1cm;"> 
+
+<ul>
+  <li>You can also surround a LaTeX input with <b>two $</b> on each side</li>
+  <ul>
+    <li>It puts the equation at the <b>center of a new line</b></li>
+    <li>And gives <b>more vertical space</b> to the equation</li>
+  </ul>
+</ul> 
+ 
+--
+
+<p style = "margin-bottom:1cm;"> 
+
+<ul>
+  <li>Surrounding a LaTeX input with two $ is usually good for:</li>
+  <ul>
+    <li>Large equations</li>
+    <li>Equations that should be emphasized</li>
+  </ul>
+</ul> 
+
+--
+
+<p style = "margin-bottom:-.25cm;"> 
+
+.pull-left[
+
+<h4 style = "margin-bottom:-.5cm;">The mean formula with one `$` on each side</h4>  
+&nbsp;&nbsp;&nbsp;&nbsp;&#10140; For inline equations  
+ 
+$\overline{x}=\frac{1}{N}\sum_{i=1}^N x_i$ 
+
+]
+
+.pull-right[
+
+<h4 style = "margin-bottom:-.5cm;">The mean formula with two `$` on each side</h4>  
+&nbsp;&nbsp;&nbsp;&nbsp;&#10140; For large/emphasized equations  
+ 
+$$\overline{x}=\frac{1}{N}\sum_{i=1}^N x_i$$ 
+
+]
+
+---
+
+### 3. LaTeX for equations
+
+#### 3.3. Large equations
+
+<ul>
+  <li>Sometimes you do not want two <b>consecutive lines</b> of equations to be centered</li>
+  <ul>
+    <li>You may want to <b>align</b> them based on a <b>common part</b> within the equations</li>
+  </ul>
+</ul>
+
+--
+
+<p style = "margin-bottom:1cm;">
+
+ * This should be done in an **`aligned` environment** (`$\begin{aligned}...\end{aligned}$`)
+
+<p style = "margin-bottom:-.5cm;">  
+
+<ul>
+  <ul>
+    <li>Place the <b>"&"</b> symbol where the equations should be aligned</li>
+    <li>And break a line using <b>"\\"</b></li>
+  </ul>
+</ul>
+
+<p style = "margin-bottom:1cm;">
+
+--
+
+```
+$$
+\begin{aligned}
+x & = (a + b) \times c \\
+  & = (a \times c) + (b \times c)
+\end{aligned}
+$$
+```
+
+$$\begin{aligned}
+x & = (a + b) \times c \\
+  & = (a \times c) + (b \times c)
+\end{aligned}$$
+
+---
+
+### 3. LaTeX for equations
+
+#### 3.3. Large equations
+ 
+ * The same principle applies within **`cases` environment**
+
+--
+
+```
+$$\text{Med}(x) = \begin{cases} 
+  x[\frac{N+1}{2}]                          & \text{if } N \text{ is odd}\\
+  \frac{x[\frac{N}{2}]+x[\frac{N}{2}+1]}{2} & \text{if } N \text{ is even}
+\end{cases}$$
+```
+
+$$\text{Med}(x) = \begin{cases} 
+  x[\frac{N+1}{2}]                          & \text{if } N \text{ is odd}\\
+  \frac{x[\frac{N}{2}]+x[\frac{N}{2}+1]}{2} & \text{if } N \text{ is even}
+\end{cases}$$
+
+--
+
+ * Note that the **`text` function** allows to write text without it being interpreted as mathematical letters:
+
+<p style = "margin-bottom:-.5cm;"> 
+
+--
+
+.pull-left[
+```
+$$Mean(x)=\frac{1}{N}\sum_{i=1}^N x_i$$
+```
+$$Mean(x)=\frac{1}{N}\sum_{i=1}^N x_i$$
+]
+
+.pull-right[
+```
+$$\text{Mean}(x)=\frac{1}{N}\sum_{i=1}^N x_i$$
+```
+$$\text{Mean}(x)=\frac{1}{N}\sum_{i=1}^N x_i$$
+]
+
+---
+
+class: inverse, hide-logo
+
+### Practice
+
+<p style = "margin-bottom:3cm;"></p>
+
+#### 1) Inside your .qmd, reproduce the following mathematical expression
+
+$$Y_i = \alpha + \beta X_i + \varepsilon_i$$
+
+--
+
+<p style = "margin-bottom:2cm;"></p>
+
+#### 2) Then reproduce the following sentence
+
+$\hat{Y_i}$ denote the fitted values of the model.
+
+--
+
+<p style = "margin-bottom:3cm;"></p>
+<center><h3><i>You've got 3 minutes!</i></h3></center>
+
+`r countdown(minutes = 3, top = 0, right = 0, play_sound = F, color_border = "#DFE6EB", color_text = "#DFE6EB", color_running_background = "#DFE6EB", color_running_text = "#014D64", color_finished_background = "#014D64", color_finished_text = "#DFE6EB", start_immediately = T)`
+
+---
+
+class: inverse, hide-logo
+
+### Solution
+
+<p style = "margin-bottom:3cm;"></p>
+
+#### 1) Inside your .qmd, reproduce the following mathematical expression
+
+$$Y_i = \alpha + \beta X_i + \varepsilon_i$$
+
+--
+
+```
+$$Y_i = \alpha + \beta X_i + \varepsilon_i$$
+```
+
+--
+
+<p style = "margin-bottom:2cm;"></p>
+
+#### 2) Then reproduce the following sentence
+
+$\hat{Y_i}$ denote the fitted values of the model.
+
+--
+
+```
+$\hat{Y_i}$ denote the fitted values of the model.
+```
+
+---
+
+
+<h3>Overview</h3>
+
+<p style = "margin-bottom:2.5cm;"></p>
+
+.pull-left[
+
+<ul style = "margin-left:1.5cm;list-style: none">
+  <li><b>1. Basic principles &#10004;</b></li>
+  <ul style = "list-style: none">
+    <li>1.1. What is Quarto?</li>
+    <li>1.2. YAML header</li>
+    <li>1.3. Code chunks</li>
+    <li>1.4. Text formatting</li>
+    <li>1.5. Run and render your code</li>
+  </ul>
+</ul>
+
+<p style = "margin-bottom:1cm;"></p>
+
+<ul style = "margin-left:1.5cm;list-style: none">
+  <li><b>2. Useful features &#10004;</b></li>
+  <ul style = "list-style: none">
+    <li>2.1. Inline code</li>
+    <li>2.2. Tables</li>
+    <li>2.3. Preset themes</li>
+    <li>2.4. Report parameters</li>
+  </ul>
+</ul>
+
+]
+
+.pull-right[
+
+<ul style = "margin-left:-1cm;list-style: none">
+  <li><b>3. LaTeX for equations &#10004;</b></li>
+  <ul style = "list-style: none">
+    <li>3.1. What is LaTeX?</li>
+    <li>3.2. LaTeX syntax</li>
+    <li>3.3. Large equations</li>
+  </ul>
+</ul>
+ 
+<p style = "margin-bottom:1cm;"></p>
+
+<ul style = "margin-left:-1cm;list-style: none">
+  <li><b>4. Best coding practices</b></li>
+  <ul style = "list-style: none">
+    <li>4.1. Organize and name your files appropriately</li>
+    <li>4.2. Write a master script and README</li>
+    <li>4.3. Write readable code</li>
+    <li>4.4. Keep improving your skills</li>
+    <li>4.5. Track your changes</li>
+  </ul>
+</ul>
+]
+
+---
+
+### 4. Best coding practices
+#### 4.1 Organize and name your files appropriately
+- For every project, separate your files into folders (data, scripts, outputs, etc.)
+- [Name your files](https://www2.stat.duke.edu/~rcs46/lectures_2015/01-markdown-git/slides/naming-slides/naming-slides.pdf) in a way that is: 
+  - **Machine readable**: avoid spaces, special characters, case sensitivity. Use underscores or hyphens to separate words.
+  - **Human readable**: use descriptive names that provides enough info on content
+  - **Consistent with default ordering**: 
+    <ul style = "margin-left:1cm;">
+      <li><code>01_data_cleaning.R</code></li>
+      <li><code>02_data_analysis.R</code></li>
+      <li><code>03_data_visualization.R</code></li>
+    </ul>
+
+---
+
+### 4. Best coding practices
+#### 4.2 Write a master script and README
+- Master script: a single script that runs all the other scripts in the correct order. It should be the only script you need to run to reproduce your results. Structure:
+  1. Intro header with main information about the project (title, author, date, purpose)
+  2. Specify required packages and user-created programs
+  3. Specify settings like the R version used, default theme for graphs and tables, etc.
+  4. Define control variables or categories that will be used throughout the project
+  5. Run all the other scripts in the correct order
+
+- Write a README file that explains the purpose of the project, how to run it, and what each file does.
+
+---
+
+### 4. Best coding practices
+#### 4.3 Write readable code
+<ul>
+  <li style = "margin-bottom:.45cm;">White space makes everything better.</li>
+  <li style = "margin-bottom:.45cm;">Using <code># Headers ---</code> and indenting creates a useful outline.</li>
+  <li style = "margin-bottom:.45cm;">Follow the <a href = "https://style.tidyverse.org/">tidyverse style guide</a>. Lines should be shorter than 80 characters.</li>
+  <li style = "margin-bottom:.45cm;">Define variables with descriptive names: avoid too much abbreviation and keep formatting consistent.</li>
+  <ul>
+    <li><code>d_...</code> for dummy variables: <code>d_female</code>, <code>d_urban</code>, etc.</li>
+    <li><code>n_...</code> for count variables: <code>n_children</code>, <code>n_household_members</code>, <code>n_employees</code>, etc.</li>
+  </ul>
+</ul>
+
+---
+
+### 4. Best coding practices
+#### 4.4 Keep improving your skills
+
+<h4>When your code works, you're only half done</h4>
+
+<p style = "margin-bottom:.25cm;">
+
+.pull-left[
+```{r, eval = F}
+data %>%
+  mutate(
+    income = log1p(income),
+    expenses = log1p(expenses),
+    savings = log1p(savings),
+    debt = log1p(debt)
+  )
+```
+]
+
+.pull-right[
+```{r, eval = F}
+data %>%
+  mutate(
+    across(
+      c(income, expenses, savings, debt),
+      log1p
+    )
+  )
+```
+]
+
+<p style = "margin-top:.25cm;">
+
+* **Don't repeat yourself:** look for patterns that can be expressed once.
+* **Break up long commands:** each step should have one clear purpose.
+* **Use defensive programming:** write tests and checks for your data.
+* **Avoid magic constants:** explain values such as thresholds in a named object.
+
+```{r, eval = F}
+threshold <- 58.7
+data[data$x < threshold, ]
+```
+
+---
+## 4. Best coding practices
+#### 4.5 Track your changes
+.pull-left[
+- Using file naming conventions (such as adding dates and initials as suffixes) is better than no version control, but it can get out of control very quickly.
+- `git` is currently the best version control system out there: you can track changes and revert to old versions easily.
+
+Learn how to use GitHub with [DIME Analytics GitHub trainings](https://osf.io/e54gy/overview). Start [here](https://osf.io/s6hf7).
+]
+
+.pull-right[
+<img src = "slides_elements/figures/final_doc.jpg" width = "300"/>
+]
+
+---
+
+### 5. Wrap up!
+
+#### 1. Three types of contents
+
+.left-column[
+<p style = "margin-bottom:1.5cm;">
+
+<b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;YAML header &#10140;</b>
+
+<p style = "margin-bottom:1.75cm;">
+
+<b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Code chunks &#10140;</b>
+
+<p style = "margin-bottom:1.75cm;">
+
+<b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Text &#10140;</b>
+]
+
+.right-column[
+<img src = "slides_elements/figures/report_example_3.png" width = "700"/>
+]
+
+---
+
+### 5. Wrap up!
+
+#### 2. Useful features
+
+&#10140; **Inline code** allows to include the output of some **R code within text areas** of your report
+
+<p style = "margin-bottom:-.5cm;">
+
+--
+
+.pull-left[
+<center> <h4> Syntax </h4> </center>
+
+```{r, eval=F}
+`paste("a", "b", sep = "-")`
+```
+
+```{r, eval=F}
+`r paste("a", "b", sep = "-")`
+```
+
+]
+
+.pull-right[
+<center> <h4> Output </h4> </center>
+
+`paste("a", "b", sep = "-")`
+
+<p style = "margin-bottom:1cm;">
+
+`r paste("a", "b", sep = "-")`
+ 
+]
+
+<p style = "margin-bottom:2cm;">
+
+--
+
+&#10140; **`kable()`** for clean **html tables** and **`datatable()`** to navigate in **large tables**
+ 
+```{r, eval = FALSE}
+kable(results_table)
+datatable(results_table)
+```
+
+---
+
+### 5. Wrap up!
+
+#### 3. LaTeX for equations
+
+ * $\LaTeX$ is a convenient way to display **mathematical** symbols and to structure **equations**
+  * The **syntax** is mainly based on **backslashes \ and braces {}**
+
+--
+
+<p style = "margin-bottom:1cm;">
+
+&nbsp;&nbsp;&nbsp;&nbsp;&#10140; What you **type** in the text area: `$x \neq \frac{\alpha \times \beta}{2}$`  
+&nbsp;&nbsp;&nbsp;&nbsp;&#10140; What is **rendered** as an output: $x \neq \frac{\alpha \times \beta}{2}$
+
+--
+
+<p style = "margin-bottom:1.5cm;">
+
+<center>To <b>include</b> a <b>LaTeX equation</b> in Quarto, you simply have to surround it with the <b>$ sign</b></center>
+
+<p style = "margin-bottom:0cm;">
+
+.pull-left[
+
+<h4 style = "margin-bottom:0cm;">The mean formula with one `$` on each side</h4>  
+&nbsp;&nbsp;&nbsp;&nbsp;&#10140; For inline equations  
+ 
+$\overline{x}=\frac{1}{N}\sum_{i=1}^N x_i$ 
+
+]
+
+.pull-right[
+
+<h4 style = "margin-bottom:0cm;">The mean formula with two `$` on each side</h4>  
+&nbsp;&nbsp;&nbsp;&nbsp;&#10140; For large/emphasized equations  
+ 
+$$\overline{x}=\frac{1}{N}\sum_{i=1}^N x_i$$ 
+
+]
