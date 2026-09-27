@@ -21,7 +21,8 @@ You can find the pdf version of the slides in the `slides` folder.
 3. Data visualization (Sept 20)
     - [📄 Open Slides](https://andreapopcatalisan.github.io/2026-intro-to-r-public/slides/02_data-visualization.html#1); [Data](https://github.com/andreapopcatalisan/2026-intro-to-r-public/tree/2026-intro-to-r-public/data) and [Code](https://github.com/andreapopcatalisan/2026-intro-to-r-public/tree/2026-intro-to-r-public/code/class2)
 4. Quarto, LaTeX and other tools for reproducible research (Sept 30)
-    - [📄 Open Slides](https://andreapopcatalisan.github.io/2026-intro-to-r-public/slides/03_reports-Rmd-Latex.html#1); [Data](https://github.com/andreapopcatalisan/2026-intro-to-r-public/tree/2026-intro-to-r-public/data) and [Code](https://github.com/andreapopcatalisan/2026-intro-to-r-public/tree/2026-intro-to-r-public/code/class3)
+    - [📄 Homework Solution](https://andreapopcatalisan.github.io/2026-intro-to-r-public/slides/03_reports-Rmd-Latex.html#1);
+[📄 Open Slides](https://andreapopcatalisan.github.io/2026-intro-to-r-public/lecture3/slides.html#1); [Data](https://github.com/andreapopcatalisan/2026-intro-to-r-public/tree/2026-intro-to-r-public/data) and [Code](https://github.com/andreapopcatalisan/2026-intro-to-r-public/tree/2026-intro-to-r-public/code/class3)
 6. Econometrics in R (Oct 7)
     - [📄 Open Slides](https://andreapopcatalisan.github.io/2026-intro-to-r-public/slides/04_econometrics.html#1); [Data](https://github.com/andreapopcatalisan/2026-intro-to-r-public/tree/2026-intro-to-r-public/data) and [Code](https://github.com/andreapopcatalisan/2026-intro-to-r-public/tree/2026-intro-to-r-public/code/class4)
 
