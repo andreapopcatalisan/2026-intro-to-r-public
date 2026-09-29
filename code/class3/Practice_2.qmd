@@ -1,0 +1,59 @@
+---
+title: "Report on the first name LOUIS"
+author: "Your name"
+date: "10-02-2023"
+format: html
+editor: source
+theme: "cosmo"
+---
+
+### 1. Setup
+
+The packages needed in a qmd must *always* be loaded in a code chunk at the beginning of the file.
+
+```{r, message = F, warning = F}
+library(dplyr)
+library(tidyverse)
+library(ggplot2)
+library(here)
+```
+
+However, the command `install.packages()` must **not** be written in a Quarto document.\
+It should be run only once in the console.
+
+### 2) Data cleaning
+
+```{r}
+names <- read.csv(
+  here("data", "fichier_prenoms.csv"),
+  sep = ";",
+  encoding = "UTF-8"
+)
+
+names <- names %>% 
+  mutate(Gender = ifelse(sexe == 1, "Male", "Female")) %>% 
+  filter(annais != "XXXX") %>% 
+  mutate(Year = as.numeric(annais)) 
+```
+
+### 3) Evolution of the first name LOUIS over time
+
+```{r, echo = F, message = F, fig.height = 3, fig.width = 8}
+names %>% filter(preusuel == "LOUIS") %>%
+  group_by(Year, Gender) %>%
+  summarise(Total = sum(nombre)) %>% ungroup() %>%
+  ggplot(aes(x = Year, y = Total, color = Gender)) + geom_line()
+```
+
+```{r, echo = F}
+n_louis <- names %>% filter(Year == 2021 & preusuel == "LOUIS") %>% summarise(n = sum(nombre))
+```
+
+`r n_louis$n` children were born under the name LOUIS in 2021. This statistic is written in\
+inline code such that it updates automatically.
+
+## Part 2 - Latex
+
+$Y_i = \alpha + \beta X_i + \varepsilon_i$
+
+$\hat{Y_i}$ denote the fitted values of the model.
