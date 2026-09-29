@@ -1,7 +1,7 @@
 ---
 title: "Quarto & LaTeX"
 subtitle: "Lecture 3"
-author: "<br>Andrea Pop Catalisan"
+author: "<br>Andrea Pop-Catalisan"
 date: "M1 APE - Fall 2026"
 output:
   xaringan::moon_reader:  
@@ -37,15 +37,15 @@ knitr::opts_chunk$set(echo = T, message = F, warning = F, fig.align = "center", 
 
 <p style = "margin-bottom:2cm;">
 
-<center><h4> The 3 core components of the ggplot() function </h4></center>
+<center><h4> The core components of the ggplot() function </h4></center>
 
 --
 
 ```{r, echo = F}
-kable(tibble(Component = c("Data", "Mapping", "Geometry"),
-             Contribution = c("Underlying values", "Axis assignment", "Type of plot"),
+kable(tibble(Component = c("Data", "Geometry"),
+             Contribution = c("Underlying values",  "Type of plot"),
              Implementation = c("ggplot(data, | data %>% ggplot(.,", 
-                                "aes(x = V1, y = V2, ...))",
+                               
                                 "+ geom_point() + geom_line() + ...")), 
       caption = "",
       align = "lcc")
@@ -165,7 +165,7 @@ class: inverse, hide-logo
 --
 
 ```{r, eval = F}
-names <- rio::import(here::here("lecture3", "fichier_prenoms.csv"))
+names <- read.csv("../data/03_fichier_prenoms.csv", sep = ";", encoding = "UTF-8")
 str(names)
 ```
 
@@ -560,7 +560,7 @@ names %>%
 ---
 title: "My first Quarto document"
 subtitle: "A step-by-step introduction"
-author: "Elisa Alonso"
+author: "Andrea Pop-Catalisan"
 date: "08/09/2026"
 format: html
 editor: source
@@ -1486,207 +1486,6 @@ class: hide-logo
 <p style = "margin-bottom:-.9cm;"></p>
 <center><img src = "slides_elements/figures/camille.png" height = "677" width = "auto"/></center>
 ]
-
----
-
-### 2. Useful features
-
-#### 2.4. Report parameters
-
-<ul>
-  <li>But by <b>default</b> the <b>name of the .html</b> output will be the name of your .qmd</li>
-  <ul>
-    <li>So if you <b>render report.qmd</b> for the first name Louis it will save the report under <b>report.html</b></li>
-    <li>And if you <b>render it a second time</b> for the first name Didier it will <b>override</b> the first .html</li>
-  </ul>
-</ul>
-
-<p style = "margin-bottom:1.25cm;"></p>
-
---
-
-<ul>
-  <li>The <b>solution</b> is to <b>render</b> your .qmd <b>externally</b></li>
-  <ul>
-    <li>You can do that with the <b>render()</b> function of the rmarkdown package</li>
-    <li>Save your .qmd and <b>open a new .R script</b> to try it out</li>
-  </ul>
-</ul>
-
-<p style = "margin-bottom:1.25cm;"></p>
-
---
-
-```{r, eval = F}
-library(rmarkdown)
-
-render(
-  input = "C:/User/Documents/prenom.qmd",                   # Specify the input .qmd
-  output_file = "C:/User/Documents/LOUIS.html",             # Specify the output file
-  params = list(name = "LOUIS")                             # Specify the YAML parameter(s)
-)                                          
-```
-
----
-
-### 2. Useful features
-
-#### 2.4. Report parameters
-
-<ul>
-  <li>To <b>avoid copy-pasting</b> this command for each name we want a report on, we must <b>use a loop</b></li>
-</ul>
-
---
-
-<ul style = "margin-top:-.53cm">
-  <ol>
-    <li></li>
-    <li></li>
-    <li></li>
-    <li></li>
-  </ol>
-</ul>
-
-<p style = "margin-bottom:1.5cm;"></p>
-
-```{r, eval = F}
-for (name in c("LOUIS")) {
-
-  
-  
-  
-  
-  
-  
-  
-  
-}
-```
-
----
-
-### 2. Useful features
-
-#### 2.4. Report parameters
-
-<ul>
-  <li>To <b>avoid copy-pasting</b> this command for each name we want a report on, we must <b>use a loop</b></li>
-  <ol>
-    <li>First we should name the object that will successively take the value of each first name</li>
-    <li></li>
-    <li></li>
-    <li></li>
-  </ol>
-</ul>
-
-<p style = "margin-bottom:1.5cm;"></p>
-
-```{r, eval = F}
-for (i in c("LOUIS")) {
-
-  
-  
-  
-  
-  
-  
-  
-  
-}
-```
-
----
-
-### 2. Useful features
-
-#### 2.4. Report parameters
-
-<ul>
-  <li>To <b>avoid copy-pasting</b> this command for each name we want a report on, we must <b>use a loop</b></li>
-  <ol>
-    <li>First we should name the object that will successively take the value of each first name</li>
-    <li>Then indicate which values this object must successively take</li>
-    <li></li>
-    <li></li>
-  </ol>
-</ul>
-
-<p style = "margin-bottom:1.5cm;"></p>
-
-```{r, eval = F}
-for (i in c("LOUIS", "DIDER", "PAULINE", "CAMILLE")) {
-
-  
-  
-  
-  
-  
-  
-  
-  
-}
-```
-
----
-
-### 2. Useful features
-
-#### 2.4. Report parameters
-
-<ul>
-  <li>To <b>avoid copy-pasting</b> this command for each name we want a report on, we must <b>use a loop</b></li>
-  <ol>
-    <li>First we should name the object that will successively take the value of each first name</li>
-    <li>Then indicate which values this object must successively take</li>
-    <li>Then indicate what to do at each iteration</li>
-    <li></li>
-  </ol>
-</ul>
-
-<p style = "margin-bottom:1.5cm;"></p>
-
-```{r, eval = F}
-for (i in c("LOUIS", "DIDER", "PAULINE", "CAMILLE")) {
-
-  render(
-    input = "C:/User/Documents/prenom.qmd",  
-    output_file = "C:/User/Documents/LOUIS.html",
-    params = list(name = "LOUIS")
-  )  
-
-}
-```
-
----
-
-### 2. Useful features
-
-#### 2.4. Report parameters
-
-<ul>
-  <li>To <b>avoid copy-pasting</b> this command for each name we want a report on, we must <b>use a loop</b></li>
-  <ol>
-    <li>First we should name the object that will successively take the value of each first name</li>
-    <li>Then indicate which values this object must successively take</li>
-    <li>Then indicate what to do at each iteration</li>
-    <li>And this should depend on the object that successively take each value</li>
-  </ol>
-</ul>
-
-<p style = "margin-bottom:1.5cm;"></p>
-
-```{r, eval = F}
-for (i in c("LOUIS", "DIDER", "PAULINE", "CAMILLE")) {
-
-  render(
-    input = "C:/User/Documents/prenom.qmd",  
-    output_file = paste0("C:/User/Documents/", i, ".html"),
-    params = list(name = i)
-  )  
-
-}
-```
 
 ---
 
