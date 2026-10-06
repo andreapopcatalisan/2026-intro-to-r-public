@@ -556,11 +556,20 @@ cps$hat_earnings &lt;- alpha + (beta * cps$hours)
 We can easily **plot** the **distribution** of our **residuals**
 
 ```r
-data.frame(res = sum_mod$residuals) %&gt;%    # Convert the residuals to a data frame
-  ggplot(aes(x = res)) +
+cps <- cps %>%
+  mutate(
+    hat_earnings = alpha + beta * hours,
+    residual = earnings - hat_earnings
+  )
+```
+```r
+cps %>%
+  ggplot(aes(x = residual)) +
   geom_density() +
   geom_vline(xintercept = 0, linetype = "dashed")
+  )
 ```
+      
 &lt;img src="04_econometrics_files/figure-html/unnamed-chunk-30-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
