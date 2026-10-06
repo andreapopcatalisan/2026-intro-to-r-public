@@ -1580,22 +1580,7 @@ t
 ## [1] -3.335381
 ```
 ---
-### INFERENCE
-.nunito[HYPOTHESIS TESTING]  
-Our observed test statistic provides a measure of “evidence” against the null hypothesis. In particular, we know that under the null hypothesis, the test statistic follows a `\(t_{df} = t_{n-1}\)` = `\(t_4608\)` distribution 
 
-```r
-df &lt;- nrow(cps) - 1
-df
-```
-
-```
-## [1] 4608
-```
-&lt;img src="04_econometrics_files/figure-html/unnamed-chunk-115-1.png" style="display: block; margin: auto;" /&gt;
-- This distribution represents the distribution of sample evidence given that the null is true
-- Our observed test statistic (the dashed red line) shows that the event we observed is unlikely to occur if the null ( `\(H_0: \beta_1 \geq .10\)` ) is true. Now we want to calculate this probability more formally.
----
 ### INFERENCE
 .nunito[HYPOTHESIS TESTING]  
 
@@ -2168,11 +2153,6 @@ huxreg(lm(logearnings ~ hours, cps),
 #
 #
 ```
-
----
-
-
-### PRACTICE 
 
 ---
 ### EXPORTING RESULTS
