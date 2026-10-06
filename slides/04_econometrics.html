@@ -942,44 +942,7 @@ Note that R always sort **character** variables by **alphabetical order**
 ]
 
 
----
- 
 
-
-
----
-### USING BINARY AND CATEGORICAL VARIABLES
-We need to talk about .nunito[factor variables] (another **class** of R objects)
-- Variables whose values **indicate** different groups
-- They take different values that are **arbitrary group classifiers** 
-
-```
-## [1] 1
-## Levels: 1 2 3 4 5
-```
-- R understands that the different values **do not mean anything** they are there to differentiate groups only
-
-```r
-states * 2
-```
-
-```
-## [1] NA NA NA NA NA
-```
-- We can specify the **levels** and **labels** that they take:
-
-```r
-x &lt;- c("Man", "Male", "Man", "Lady", "Female")
-## Map from 4 different values to only two levels:
-xf &lt;- factor(x, levels = c("Male", "Man" , "Lady",   "Female"),
-                labels = c("Male", "Male", "Female", "Female"))
-xf
-```
-
-```
-## [1] Male   Male   Male   Female Female
-## Levels: Male Female
-```
 ---
 ### USING BINARY AND CATEGORICAL VARIABLES
 Going back to our education variable, we want to **order it** in a way that makes sense: 
