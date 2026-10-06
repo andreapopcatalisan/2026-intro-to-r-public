@@ -595,11 +595,9 @@ class: inverse
 $$\hat\beta = \frac{Cov(x,y)}{Var(x)} ; \quad \hat \alpha = \bar y - \hat \beta \times \bar x $$
 You will need the `cov()`and `var()` functions  
 
-  **Review: where do these formulas come from?** `\(E(u) = 0; \quad E(u|x) = 0\)`
 
-2. Summarise the data to only display `\(\alpha\)`, `\(\hat\beta\)` and the `\(R^2\)` 
-$$R^2 = 1 - \frac{\sum(y_i - \hat y_i)^2}{\sum(y_i - \bar y_i)^2} $$
-
+2. What is the `\(R^2\)` value?
+      
 <div class="countdown" id="timer_fb880330" data-update-every="1" tabindex="0" style="right:0;bottom:0;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">10</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
@@ -746,37 +744,13 @@ cps %&gt;%
 
 ---
 ### PRACTICE
- 2. Summarise the data to only display `\(\alpha\)`, `\(\hat\beta\)` and the 
-`\(R^2 = 1 - \frac{\sum(y_i - \hat y_i)^2}{\sum(y_i - \bar y_i)^2}\)`
-
-
+ 2. What is the `\(R^2\)` value?
+      
 ```r
-cps %&gt;% 
-  mutate(beta = cov(hours, earnings) / var(hours),
-         alpha = mean(earnings) - beta * mean(hours),
-         y_hat = alpha + beta * hours,
-         res = earnings - y_hat) %&gt;% 
-  summarise(alpha = first(alpha),
-            beta = first(beta),
-            r2 = 1 - sum(res^2) / sum((earnings - mean(earnings))^2))
-```
-
-```
-##       alpha     beta        r2
-## 1 -198.8092 28.90846 0.3417298
-```
---
-
-```r
-sum_mod$coefficients[,"Estimate"]
-```
-
-```
-## (Intercept)       hours 
-##  -198.80923    28.90846
-```
---
-
+mod <- lm(earnings ~ hours, cps)
+summary(mod)
+```      
+      
 ```r
 sum_mod$r.squared
 ```
